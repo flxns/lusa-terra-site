@@ -9,7 +9,6 @@
   <meta property="og:description" content="Passion for Portuguese real estate investment." />
   <meta property="og:type" content="website" />
   <meta name="theme-color" content="#0b0b0c" />
-  <!-- Fonts: free, elegant serif + modern sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
@@ -21,37 +20,43 @@
       --bg: #ffffff;
       --ink: #0e0e10; /* near-black */
       --ink-soft: #2a2a2b;
-      --brand: #0b0b0c; /* used for overlays */
-      --muted: #e7e7ea;
+      --muted: #e9e9ec;
       --radius: 16px;
     }
 
-    body { font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji"; color: var(--ink); background: var(--bg); }
+    body { font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial; color: var(--ink); background: var(--bg); }
 
     /* Full-screen, 3-snap layout tailored for iPhone. Use dynamic viewport units to avoid Safari URL bar issues. */
-    .snapper { height: 100svh; overflow-y: auto; scroll-snap-type: y mandatory; -webkit-overflow-scrolling: touch; }
-    section { min-height: 100svh; scroll-snap-align: start; display: grid; place-items: center; position: relative; }
+    .snapper { height: 100svh; overflow-y: auto; scroll-snap-type: y proximity; /* softer than mandatory */ -webkit-overflow-scrolling: touch; }
+    section { min-height: 100svh; scroll-snap-align: start; position: relative; display: grid; place-items: center; }
 
-    /* Page 1 — Hero */
-    .hero { color: #fff; }
+    /* Page 1 — Hero (Bondstone-inspired) */
+    .hero { color: #fff; overflow: hidden; }
     .hero__bg { position: absolute; inset: 0; background: #000 center/cover no-repeat; filter: brightness(0.75); }
-    /* Replace the image URL below with your architectural photo (large, optimized). */
+    /* Replace with your architectural image */
     .hero__bg { background-image: image-set(
       url('https://images.unsplash.com/photo-1529429612779-c8e40ef2f36c?q=80&w=1200&auto=format&fit=crop') 1x,
       url('https://images.unsplash.com/photo-1529429612779-c8e40ef2f36c?q=80&w=2400&auto=format&fit=crop') 2x
     ); }
 
-    .hero__content { position: relative; z-index: 1; text-align: center; padding: 24px; width: min(92vw, 640px); }
-    .logo { font-family: "Playfair Display", Georgia, serif; font-weight: 700; letter-spacing: 0.02em; font-size: clamp(28px, 6vw, 44px); line-height: 1.1; }
-    .tagline { margin-top: 10px; font-weight: 300; font-size: clamp(14px, 3.6vw, 18px); opacity: 0.95; }
+    .hero__content { position: relative; z-index: 1; width: min(92vw, 700px); margin: 0 auto; display: grid; justify-items: center; align-content: start; padding: max(16px, env(safe-area-inset-top)) 24px 24px; }
+    .logo { font-family: "Playfair Display", Georgia, serif; font-weight: 700; letter-spacing: .02em; font-size: clamp(36px, 8.2vw, 56px); line-height: 1.05; text-align: center; margin-top: clamp(8px, 4svh, 28px); }
+    .tagline { margin-top: clamp(16px, 4svh, 28px); font-weight: 400; font-size: clamp(16px, 4.4vw, 22px); text-align: center; opacity: .98; }
 
-    /* Page 2 — Business areas on white background */
-    .areas { background: var(--bg); }
-    .areas__wrap { width: min(92vw, 680px); margin: 0 auto; display: grid; gap: 14px; }
-    .areas__title { font-family: "Playfair Display", Georgia, serif; font-weight: 700; font-size: clamp(20px, 4.8vw, 28px); text-align: center; margin-bottom: 10px; color: var(--ink); }
-    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .card { border: 1px solid var(--muted); border-radius: var(--radius); padding: 18px; text-align: center; font-weight: 600; letter-spacing: 0.02em; background: #fff; }
-    .card small { display:block; font-weight: 400; color: var(--ink-soft); margin-top: 6px; }
+    /* Curved divider into page 2 */
+    .curve { position: absolute; bottom: -1px; left: 0; width: 100%; height: 68px; pointer-events: none; }
+    .curve svg{ display:block; width:100%; height:100%; }
+
+    /* Page 2 — Business Areas (Bondstone-style list with numbers) */
+    .areas { background: #fff; display: block; }
+    .areas__wrap { width: min(92vw, 760px); margin: 0 auto; padding: 18px 0 24px; }
+    .areas__eyebrow { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: #666; margin-bottom: 8px; }
+    .areas__list { list-style: none; margin: 0; padding: 0; }
+    .area-item { display: grid; grid-template-columns: auto 1fr; gap: 14px; padding: 18px 0; align-items: start; }
+    .area-item + .area-item { border-top: 1px solid var(--muted); }
+    .num { width: 28px; height: 28px; border-radius: 999px; background: #0d0d0f; color: #fff; display: grid; place-items: center; font-weight: 700; font-size: 14px; }
+    .txt .title { font-weight: 700; letter-spacing: .01em; font-size: clamp(18px, 5.2vw, 26px); }
+    .txt small { display:block; color: var(--ink-soft); margin-top: 6px; font-size: 13px; }
 
     /* Page 3 — Contact form */
     .contact { background: #f8f8fa; }
@@ -61,12 +66,18 @@
     label { font-size: 13px; opacity: 0.85; }
     input, textarea { width: 100%; font: inherit; padding: 12px 14px; border: 1px solid var(--muted); border-radius: 12px; background: #fff; }
     textarea { min-height: 120px; resize: vertical; }
-    button { appearance: none; border: none; border-radius: 999px; padding: 12px 18px; font-weight: 600; background: var(--ink); color: #fff; cursor: pointer; }
+    button { appearance: none; border: none; border-radius: 999px; padding: 12px 18px; font-weight: 600; background: #0e0e10; color: #fff; cursor: pointer; }
     .meta { font-size: 12px; opacity: 0.75; text-align: center; margin-top: 6px; }
     .status { font-size: 14px; margin-top: 6px; text-align: center; }
 
-    /* Nice but subtle scroll hint on hero */
-    .scroll-hint { position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%); font-size: 12px; opacity: 0.8; }
+    /* Reveal animations (fade/slide) */
+    .reveal-x, .reveal-up { opacity: 0; transform: translate3d(0,0,0); will-change: transform, opacity; }
+    .reveal-x { transform: translateX(28px); }
+    .reveal-up { transform: translateY(24px); }
+    .in-view { opacity: 1; transform: none; transition: transform .48s ease, opacity .48s ease; transition-delay: var(--d, 0ms); }
+
+    /* Remove old scroll arrow entirely */
+    .scroll-hint { display: none !important; }
   </style>
 </head>
 <body>
@@ -75,22 +86,51 @@
     <section class="hero" aria-label="Intro">
       <div class="hero__bg" aria-hidden="true"></div>
       <div class="hero__content">
-        <div class="logo">Lusa Terra</div>
-        <div class="tagline">Passion for Portuguese real estate investment</div>
+        <h1 class="logo">Lusa Terra</h1>
+        <p class="tagline reveal-up">Passion for Portuguese real estate investment</p>
       </div>
-      <div class="scroll-hint" aria-hidden="true">▾</div>
+      <!-- curved white separator into section 2 -->
+      <div class="curve" aria-hidden="true">
+        <svg viewBox="0 0 100 12" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0,12 C20,0 80,0 100,12 L100,12 L0,12 Z" fill="#ffffff"/>
+        </svg>
+      </div>
     </section>
 
-    <!-- Page 2: Business Areas -->
+    <!-- Page 2: Business Areas (Bondstone-inspired) -->
     <section class="areas" aria-label="Business areas">
       <div class="areas__wrap">
-        <h2 class="areas__title">Focus Areas</h2>
-        <div class="grid">
-          <div class="card">Origination<small>Deal sourcing & partnerships</small></div>
-          <div class="card">Investment<small>Capital structuring & underwriting</small></div>
-          <div class="card">Development<small>Project & design management</small></div>
-          <div class="card">Management<small>Asset & property operations</small></div>
-        </div>
+        <div class="areas__eyebrow">Business Areas</div>
+        <ol class="areas__list">
+          <li class="area-item reveal-x" style="--d:60ms">
+            <span class="num">1</span>
+            <div class="txt">
+              <div class="title">Origination</div>
+              <small>Off‑market deal sourcing partners</small>
+            </div>
+          </li>
+          <li class="area-item reveal-x" style="--d:120ms">
+            <span class="num">2</span>
+            <div class="txt">
+              <div class="title">Investment</div>
+              <small>Underwriting and capital structuring</small>
+            </div>
+          </li>
+          <li class="area-item reveal-x" style="--d:180ms">
+            <span class="num">3</span>
+            <div class="txt">
+              <div class="title">Development</div>
+              <small>Design management and delivery</small>
+            </div>
+          </li>
+          <li class="area-item reveal-x" style="--d:240ms">
+            <span class="num">4</span>
+            <div class="txt">
+              <div class="title">Management</div>
+              <small>Hands‑on asset and operations</small>
+            </div>
+          </li>
+        </ol>
       </div>
     </section>
 
@@ -113,7 +153,6 @@
             <label for="message">Message</label>
             <textarea id="message" name="message" placeholder="Tell us briefly about the asset or mandate" required></textarea>
           </div>
-          <!-- Ensure messages land at info@lusaterrainvest.com by configuring Formspree to forward to that inbox. -->
           <button type="submit">Send message</button>
           <div id="status" class="status" role="status" aria-live="polite"></div>
         </form>
@@ -123,7 +162,14 @@
   </main>
 
   <script>
-    // Friendly inline JS: handle Formspree responses without page reload
+    // IntersectionObserver to reveal hero tagline + area items with slide/fade
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in-view'); } });
+    }, { root: null, threshold: 0.35 });
+
+    document.querySelectorAll('.reveal-x, .reveal-up').forEach(el=> io.observe(el));
+
+    // Contact form — Formspree handling
     const form = document.getElementById('contactForm');
     const status = document.getElementById('status');
     form.addEventListener('submit', async (e) => {
