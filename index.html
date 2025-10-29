@@ -11,6 +11,7 @@
   <meta name="theme-color" content="#0b0b0c" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Body = Inter; Headings = Libre Baskerville (same for Business Areas + Contact) -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; }
@@ -21,12 +22,15 @@
       --ink-soft: #2a2a2b;
       --muted: #e9e9ec;
       --radius: 18px;
+      --num: 25px;         /* number circle size */
+      --gap: 16px;         /* gap between number and title */
+      --sub-dg: #5a5a5f;   /* dark grey for subtext */
     }
     body { font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; color: var(--ink); background: var(--bg); }
 
-    /* 3 full screens; softer snap */
-    .snapper { height: 100svh; overflow-y: auto; scroll-snap-type: y proximity; -webkit-overflow-scrolling: touch; }
-    section { min-height: 100svh; scroll-snap-align: start; position: relative; display: grid; place-items: stretch; }
+    /* No snapping now */
+    .snapper { height: 100svh; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+    section { min-height: 100svh; position: relative; display: grid; place-items: stretch; }
 
     /* PAGE 1 — HERO */
     .hero { color: #fff; overflow: hidden; border-bottom-left-radius: var(--radius); border-bottom-right-radius: var(--radius); z-index: 1; }
@@ -50,19 +54,18 @@
     }
     /* Tagline ~25% above bottom (with short-screen fallback) */
     .tagline {
-      position: absolute; left: 22px; right: 22px;
-      bottom: 25%;
+      position: absolute; left: 22px; right: 22px; bottom: 25%;
       font-weight: 600; font-size: clamp(22px, 6vw, 32px);
       text-align: left; opacity: .98;
     }
     @media (max-height: 700px) { .tagline { bottom: 18%; } }
 
-    /* PAGE 2 — BUSINESS AREAS */
+    /* PAGE 2 — BUSINESS AREAS (straight rounded divider, no “Focus” heading) */
     .areas {
       background: #fff;
       border-top-left-radius: var(--radius);
       border-top-right-radius: var(--radius);
-      margin-top: -18px; /* overlap hero cleanly */
+      margin-top: -18px;
       z-index: 2;
     }
     .areas__wrap { width: min(92vw, 860px); margin: 0 auto; padding: 26px 0 34px; }
@@ -70,38 +73,51 @@
     .section-title { font-family: "Libre Baskerville", serif; font-weight: 700; font-size: clamp(20px, 4.8vw, 28px); margin: 0 0 8px; }
 
     .areas__list { list-style: none; margin: 0; padding: 0; }
-    .area-item { display: grid; grid-template-columns: auto 1fr; gap: 16px; padding: 24px 0; align-items: start; }
+    .area-item { padding: 22px 0; }
     .area-item + .area-item { border-top: 1px solid var(--muted); }
 
+    /* Row = number + title aligned on baseline; subtext sits underneath, indented to the title */
+    .area-row { display: flex; align-items: baseline; gap: var(--gap); }
     .num {
-      width: 25px; height: 25px; border-radius: 999px;
-      background: #0d0d0f; color: #fff; display: grid; place-items: center;
-      font-weight: 700; font-size: 13px; /* ~10% smaller */
+      flex: 0 0 auto; width: var(--num); height: var(--num); border-radius: 999px;
+      background: #0d0d0f; color: #fff; display: inline-flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 13px; line-height: 1;  /* ~10% smaller */
+      transform: translateY(2px); /* tiny optical tweak to match text baseline */
     }
-    .txt .title { font-weight: 700; letter-spacing: .01em; font-size: clamp(26px, 6.5vw, 34px); } /* ~20% larger */
-    .txt small { display:block; color: var(--ink-soft); margin-top: 6px; font-size: clamp(16px, 4.2vw, 18px); } /* ~50% larger */
+    .title {
+      font-family: "Libre Baskerville", serif;  /* same as section titles */
+      font-weight: 700; letter-spacing: .01em; font-size: clamp(26px, 6.5vw, 34px); /* ~20% larger */
+      line-height: 1.15; margin: 0;
+    }
+    .sub {
+      display: block; color: var(--sub-dg); margin-top: 6px;
+      font-size: clamp(16px, 4.2vw, 18px); /* ~50% larger baseline */
+      /* indent subtext so it lines up with the start of the title */
+      margin-left: calc(var(--num) + var(--gap));
+    }
 
     @media (max-height: 700px) {
       .area-item { padding: 18px 0; }
-      .txt .title { font-size: clamp(24px, 6.8vw, 32px); }
-      .txt small { font-size: clamp(15px, 4.1vw, 17px); }
+      .title { font-size: clamp(24px, 6.8vw, 32px); }
+      .sub   { font-size: clamp(15px, 4.1vw, 17px); }
     }
 
-    /* PAGE 3 — CONTACT (flat) */
+    /* PAGE 3 — CONTACT (flat; same heading font as Business Areas) */
     .contact { background: #fff; }
     .contact__wrap { width: min(92vw, 860px); margin: 0 auto; padding: 26px 0 34px; }
     .contact-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .contact-head .section-title { margin: 0; } /* same class + font as Business Areas */
     .wx { font-size: 12px; letter-spacing: .12em; color: #8a8a8f; white-space: nowrap; }
 
-    form { display: grid; gap: 14px; margin-top: 10px; }
+    form { display: grid; gap: 14px; margin-top: 14px; }
     label { font-size: 13px; opacity: 0.85; }
     input, textarea { width: 100%; font: inherit; padding: 12px 14px; border: 1px solid var(--muted); border-radius: 12px; background: #fff; }
     textarea { min-height: 130px; resize: vertical; }
     button { appearance: none; border: none; border-radius: 999px; padding: 12px 18px; font-weight: 600; background: #0e0e10; color: #fff; cursor: pointer; width: fit-content; }
 
-    /* Reveal animations (now safe by default) */
-    .reveal-x, .reveal-up { opacity: 1; transform: none; } /* visible by default */
-    .animate .reveal-x, .animate .reveal-up { opacity: 0; } /* only hidden when JS adds .animate */
+    /* Reveal animations with safe default (visible if JS fails) */
+    .reveal-x, .reveal-up { opacity: 1; transform: none; }
+    .animate .reveal-x, .animate .reveal-up { opacity: 0; }
     .animate .reveal-x { transform: translateX(28px); }
     .animate .reveal-up { transform: translateY(24px); }
     .in-view { opacity: 1 !important; transform: none !important; transition: transform .52s ease, opacity .52s ease; transition-delay: var(--d, 0ms); }
@@ -122,35 +138,37 @@
     <section class="areas" aria-label="Business areas">
       <div class="areas__wrap">
         <div class="areas__eyebrow">BUSINESS AREAS</div>
-        <h2 class="section-title">Focus</h2>
         <ol class="areas__list">
           <li class="area-item reveal-x" style="--d:60ms">
-            <span class="num">1</span>
-            <div class="txt">
-              <div class="title">Origination</div>
-              <small>Deal sourcing via our extensive local network</small>
+            <div class="area-row">
+              <span class="num">1</span>
+              <h3 class="title">Origination</h3>
             </div>
+            <small class="sub">Deal sourcing via our extensive local network</small>
           </li>
+
           <li class="area-item reveal-x" style="--d:120ms">
-            <span class="num">2</span>
-            <div class="txt">
-              <div class="title">Investment</div>
-              <small>Lead investor and co-investment</small>
+            <div class="area-row">
+              <span class="num">2</span>
+              <h3 class="title">Investment</h3>
             </div>
+            <small class="sub">Lead investor and co-investment</small>
           </li>
+
           <li class="area-item reveal-x" style="--d:180ms">
-            <span class="num">3</span>
-            <div class="txt">
-              <div class="title">Development</div>
-              <small>Property development across project stages</small>
+            <div class="area-row">
+              <span class="num">3</span>
+              <h3 class="title">Development</h3>
             </div>
+            <small class="sub">Property development across project stages</small>
           </li>
+
           <li class="area-item reveal-x" style="--d:240ms">
-            <span class="num">4</span>
-            <div class="txt">
-              <div class="title">Management</div>
-              <small>Property management and operations</small>
+            <div class="area-row">
+              <span class="num">4</span>
+              <h3 class="title">Management</h3>
             </div>
+            <small class="sub">Property management and operations</small>
           </li>
         </ol>
       </div>
@@ -184,22 +202,16 @@
   </main>
 
   <script>
-    /* Reveal effects with correct scroll container root + fallbacks */
+    /* Reveal with the correct scroll container + fallback */
     const scroller = document.querySelector('.snapper');
     const targets = document.querySelectorAll('.reveal-x, .reveal-up');
     let io;
-
     try {
       io = new IntersectionObserver((entries)=>{
         entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in-view'); });
       }, { root: scroller, threshold: 0.15 });
       targets.forEach(el => io.observe(el));
-    } catch (err) {
-      // If IO not supported, just show everything
-      targets.forEach(el => el.classList.add('in-view'));
-    }
-
-    // Remove the 'animate' class after a tick to avoid flash of hidden content
+    } catch { targets.forEach(el => el.classList.add('in-view')); }
     requestAnimationFrame(()=> document.body.classList.remove('animate'));
 
     /* Contact form (Formspree) */
@@ -211,12 +223,12 @@
       try {
         const data = new FormData(form);
         const res = await fetch(form.action, { method: form.method, body: data, headers: { 'Accept': 'application/json' } });
-        if (res.ok) { status.textContent = 'Thanks — we\'ll get back to you shortly.'; form.reset(); }
+        if (res.ok) { status.textContent = 'Thanks — we\\'ll get back to you shortly.'; form.reset(); }
         else { const json = await res.json().catch(()=>({})); status.textContent = json?.errors?.[0]?.message || 'Something went wrong. Please email us directly.'; }
       } catch { status.textContent = 'Network error. Please try again or email us directly.'; }
     });
 
-    /* Lisbon temperature (no API key) */
+    /* Lisbon temperature (no API key) — optional badge */
     const wxEl = document.getElementById('wx');
     (async () => {
       try {
