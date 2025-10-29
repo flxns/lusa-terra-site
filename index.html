@@ -11,135 +11,113 @@
   <meta name="theme-color" content="#0b0b0c" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet" />
   <style>
-    /* Reset & tokens */
     *, *::before, *::after { box-sizing: border-box; }
     html, body { height: 100%; margin: 0; }
     :root {
       --bg: #ffffff;
-      --ink: #0e0e10; /* near-black */
+      --ink: #0e0e10;
       --ink-soft: #2a2a2b;
       --muted: #e9e9ec;
-      --radius: 16px;
+      --radius: 18px;
     }
 
-    body { font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial; color: var(--ink); background: var(--bg); }
+    body { font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; color: var(--ink); background: var(--bg); }
 
-    /* Full-screen, 3-snap layout tailored for iPhone. Use dynamic viewport units to avoid Safari URL bar issues. */
-    .snapper { height: 100svh; overflow-y: auto; scroll-snap-type: y proximity; /* softer than mandatory */ -webkit-overflow-scrolling: touch; }
-    section { min-height: 100svh; scroll-snap-align: start; position: relative; display: grid; place-items: center; }
+    .snapper { height: 100svh; overflow-y: auto; scroll-snap-type: y proximity; -webkit-overflow-scrolling: touch; }
+    section { min-height: 100svh; scroll-snap-align: start; position: relative; display: grid; place-items: stretch; }
 
-    /* Page 1 — Hero (Bondstone-inspired) */
-    .hero { color: #fff; overflow: hidden; }
-    .hero__bg { position: absolute; inset: 0; background: #000 center/cover no-repeat; filter: brightness(0.75); }
-    /* Replace with your architectural image */
-    .hero__bg { background-image: image-set(
-      url('https://images.unsplash.com/photo-1529429612779-c8e40ef2f36c?q=80&w=1200&auto=format&fit=crop') 1x,
-      url('https://images.unsplash.com/photo-1529429612779-c8e40ef2f36c?q=80&w=2400&auto=format&fit=crop') 2x
-    ); }
+    /* Page 1 — Hero */
+    .hero { color: #fff; overflow: hidden; border-bottom-left-radius: var(--radius); border-bottom-right-radius: var(--radius); z-index: 1; }
+    .hero__bg { position: absolute; inset: 0; background: #000 center/cover no-repeat; filter: brightness(0.74); }
+    .hero__content { position: relative; z-index: 1; width: min(92vw, 860px); margin: 0 auto; display: grid; grid-template-rows: auto 1fr auto; align-content: stretch; padding: max(16px, env(safe-area-inset-top)) 22px 22px; }
+    .logo { font-family: 'Libre Baskerville', serif; font-weight: 700; letter-spacing: .015em; font-size: clamp(44px, 10vw, 80px); line-height: 1.05; text-align: left; }
+    .tagline { align-self: end; justify-self: start; margin-bottom: 8px; font-weight: 500; font-size: clamp(18px, 5.4vw, 28px); text-align: left; opacity: .98; }
 
-    .hero__content { position: relative; z-index: 1; width: min(92vw, 700px); margin: 0 auto; display: grid; justify-items: center; align-content: start; padding: max(16px, env(safe-area-inset-top)) 24px 24px; }
-    .logo { font-family: "Playfair Display", Georgia, serif; font-weight: 700; letter-spacing: .02em; font-size: clamp(36px, 8.2vw, 56px); line-height: 1.05; text-align: center; margin-top: clamp(8px, 4svh, 28px); }
-    .tagline { margin-top: clamp(16px, 4svh, 28px); font-weight: 400; font-size: clamp(16px, 4.4vw, 22px); text-align: center; opacity: .98; }
-
-    /* Curved divider into page 2 */
-    .curve { position: absolute; bottom: -1px; left: 0; width: 100%; height: 68px; pointer-events: none; }
-    .curve svg{ display:block; width:100%; height:100%; }
-
-    /* Page 2 — Business Areas (Bondstone-style list with numbers) */
-    .areas { background: #fff; display: block; }
-    .areas__wrap { width: min(92vw, 760px); margin: 0 auto; padding: 18px 0 24px; }
-    .areas__eyebrow { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: #666; margin-bottom: 8px; }
+    /* Page 2 — Business Areas */
+    .areas { background: #fff; border-top-left-radius: var(--radius); border-top-right-radius: var(--radius); margin-top: -18px; z-index: 2; }
+    .areas__wrap { width: min(92vw, 860px); margin: 0 auto; padding: 26px 0 34px; }
+    .section-title { font-family: 'Libre Baskerville', serif; font-weight: 700; font-size: clamp(20px, 4.8vw, 28px); margin: 0 0 8px; }
+    .areas__eyebrow { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: #666; margin-bottom: 10px; }
     .areas__list { list-style: none; margin: 0; padding: 0; }
-    .area-item { display: grid; grid-template-columns: auto 1fr; gap: 14px; padding: 18px 0; align-items: start; }
+    .area-item { display: grid; grid-template-columns: auto 1fr; gap: 16px; padding: 22px 0; align-items: start; }
     .area-item + .area-item { border-top: 1px solid var(--muted); }
-    .num { width: 28px; height: 28px; border-radius: 999px; background: #0d0d0f; color: #fff; display: grid; place-items: center; font-weight: 700; font-size: 14px; }
-    .txt .title { font-weight: 700; letter-spacing: .01em; font-size: clamp(18px, 5.2vw, 26px); }
-    .txt small { display:block; color: var(--ink-soft); margin-top: 6px; font-size: 13px; }
+    .num { width: 25px; height: 25px; border-radius: 999px; background: #0d0d0f; color: #fff; display: grid; place-items: center; font-weight: 700; font-size: 13px; }
+    .txt .title { font-weight: 700; letter-spacing: .01em; font-size: clamp(26px, 6.5vw, 34px); }
+    .txt small { display:block; color: var(--ink-soft); margin-top: 6px; font-size: clamp(16px, 4.2vw, 18px); }
 
-    /* Page 3 — Contact form */
-    .contact { background: #f8f8fa; }
-    .contact__box { width: min(92vw, 680px); margin: 0 auto; background: #fff; border: 1px solid var(--muted); border-radius: calc(var(--radius) + 4px); padding: 18px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); }
-    .contact h2 { font-family: "Playfair Display", Georgia, serif; margin: 0 0 8px; font-size: clamp(20px, 4.8vw, 28px); }
-    form { display: grid; gap: 12px; }
+    /* Page 3 — Contact */
+    .contact { background: #fff; }
+    .contact__wrap { width: min(92vw, 860px); margin: 0 auto; padding: 26px 0 34px; }
+    .contact-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .wx { font-size: 12px; letter-spacing: .12em; color: #8a8a8f; white-space: nowrap; }
+    form { display: grid; gap: 14px; margin-top: 10px; }
     label { font-size: 13px; opacity: 0.85; }
     input, textarea { width: 100%; font: inherit; padding: 12px 14px; border: 1px solid var(--muted); border-radius: 12px; background: #fff; }
-    textarea { min-height: 120px; resize: vertical; }
-    button { appearance: none; border: none; border-radius: 999px; padding: 12px 18px; font-weight: 600; background: #0e0e10; color: #fff; cursor: pointer; }
-    .meta { font-size: 12px; opacity: 0.75; text-align: center; margin-top: 6px; }
-    .status { font-size: 14px; margin-top: 6px; text-align: center; }
+    textarea { min-height: 130px; resize: vertical; }
+    button { appearance: none; border: none; border-radius: 999px; padding: 12px 18px; font-weight: 600; background: #0e0e10; color: #fff; cursor: pointer; width: fit-content; }
+    .status { font-size: 14px; margin-top: 6px; }
 
-    /* Reveal animations (fade/slide) */
     .reveal-x, .reveal-up { opacity: 0; transform: translate3d(0,0,0); will-change: transform, opacity; }
     .reveal-x { transform: translateX(28px); }
     .reveal-up { transform: translateY(24px); }
-    .in-view { opacity: 1; transform: none; transition: transform .48s ease, opacity .48s ease; transition-delay: var(--d, 0ms); }
-
-    /* Remove old scroll arrow entirely */
-    .scroll-hint { display: none !important; }
+    .in-view { opacity: 1; transform: none; transition: transform .52s ease, opacity .52s ease; transition-delay: var(--d, 0ms); }
   </style>
 </head>
 <body>
   <main class="snapper" id="top">
-    <!-- Page 1: Hero -->
     <section class="hero" aria-label="Intro">
       <div class="hero__bg" aria-hidden="true"></div>
       <div class="hero__content">
         <h1 class="logo">Lusa Terra</h1>
         <p class="tagline reveal-up">Passion for Portuguese real estate investment</p>
       </div>
-      <!-- curved white separator into section 2 -->
-      <div class="curve" aria-hidden="true">
-        <svg viewBox="0 0 100 12" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0,12 C20,0 80,0 100,12 L100,12 L0,12 Z" fill="#ffffff"/>
-        </svg>
-      </div>
     </section>
 
-    <!-- Page 2: Business Areas (Bondstone-inspired) -->
     <section class="areas" aria-label="Business areas">
       <div class="areas__wrap">
-        <div class="areas__eyebrow">Business Areas</div>
+        <div class="areas__eyebrow">BUSINESS AREAS</div>
+        <h2 class="section-title">Focus</h2>
         <ol class="areas__list">
           <li class="area-item reveal-x" style="--d:60ms">
             <span class="num">1</span>
             <div class="txt">
               <div class="title">Origination</div>
-              <small>Off‑market deal sourcing partners</small>
+              <small>Deal sourcing via our extensive local network</small>
             </div>
           </li>
           <li class="area-item reveal-x" style="--d:120ms">
             <span class="num">2</span>
             <div class="txt">
               <div class="title">Investment</div>
-              <small>Underwriting and capital structuring</small>
+              <small>Lead investor and co‑investment</small>
             </div>
           </li>
           <li class="area-item reveal-x" style="--d:180ms">
             <span class="num">3</span>
             <div class="txt">
               <div class="title">Development</div>
-              <small>Design management and delivery</small>
+              <small>Property development across project stages</small>
             </div>
           </li>
           <li class="area-item reveal-x" style="--d:240ms">
             <span class="num">4</span>
             <div class="txt">
               <div class="title">Management</div>
-              <small>Hands‑on asset and operations</small>
+              <small>Property management and operations</small>
             </div>
           </li>
         </ol>
       </div>
     </section>
 
-    <!-- Page 3: Contact -->
     <section class="contact" aria-label="Contact">
-      <div class="contact__box">
-        <h2>Contact</h2>
-        <p class="meta">Have an opportunity in Portugal? Send us a message. We aim to respond within 1 business day.</p>
-        <!-- Quick API-less form using Formspree (swap the action URL with your form ID) -->
+      <div class="contact__wrap">
+        <div class="contact-head">
+          <h2 class="section-title">Contact us</h2>
+          <div class="wx" id="wx"> </div>
+        </div>
         <form id="contactForm" action="https://formspree.io/f/your-form-id" method="POST">
           <div>
             <label for="name">Your name</label>
@@ -151,25 +129,21 @@
           </div>
           <div>
             <label for="message">Message</label>
-            <textarea id="message" name="message" placeholder="Tell us briefly about the asset or mandate" required></textarea>
+            <textarea id="message" name="message" placeholder="Tell us briefly about the asset or opportunity" required></textarea>
           </div>
           <button type="submit">Send message</button>
           <div id="status" class="status" role="status" aria-live="polite"></div>
         </form>
-        <p class="meta">Or email us: <a href="mailto:info@lusaterrainvest.com">info@lusaterrainvest.com</a></p>
       </div>
     </section>
   </main>
 
   <script>
-    // IntersectionObserver to reveal hero tagline + area items with slide/fade
     const io = new IntersectionObserver((entries)=>{
       entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in-view'); } });
     }, { root: null, threshold: 0.35 });
-
     document.querySelectorAll('.reveal-x, .reveal-up').forEach(el=> io.observe(el));
 
-    // Contact form — Formspree handling
     const form = document.getElementById('contactForm');
     const status = document.getElementById('status');
     form.addEventListener('submit', async (e) => {
@@ -189,6 +163,18 @@
         status.textContent = 'Network error. Please try again or email us directly.';
       }
     });
+
+    // Weather for Lisbon
+    const wxEl = document.getElementById('wx');
+    (async () => {
+      try {
+        const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=38.72&longitude=-9.14&current_weather=true');
+        const data = await res.json();
+        const t = Math.round((data?.current_weather?.temperature ?? data?.current?.temperature_2m) || 0);
+        if (!Number.isNaN(t) && t !== 0) wxEl.textContent = `${t}°C LISBON`;
+        else wxEl.remove();
+      } catch { wxEl.remove(); }
+    })();
   </script>
 </body>
 </html>
