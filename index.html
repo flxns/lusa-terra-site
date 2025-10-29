@@ -1,129 +1,117 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Lusa Terra</title>
-  <meta name="description" content="Passion for Portuguese real estate investment." />
-  <meta property="og:title" content="Lusa Terra" />
-  <meta property="og:description" content="Passion for Portuguese real estate investment." />
-  <meta property="og:type" content="website" />
-  <meta name="theme-color" content="#0b0b0c" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <!-- Body = Inter; Headings = Libre Baskerville (same for Business Areas + Contact) -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; }
-    html, body { height: 100%; margin: 0; }
-    :root {
-      --bg: #ffffff;
-      --ink: #0e0e10;
-      --ink-soft: #2a2a2b;
-      --muted: #e9e9ec;
-      --radius: 18px;
-      --num: 25px;         /* number circle size */
-      --gap: 16px;         /* gap between number and title */
-      --sub-dg: #5a5a5f;   /* dark grey for subtext */
-    }
-    body { font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; color: var(--ink); background: var(--bg); }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Lusa Terra</title>
+<meta name="description" content="Passion for Portuguese real estate investment." />
+<meta property="og:title" content="Lusa Terra" />
+<meta property="og:description" content="Passion for Portuguese real estate investment." />
+<meta property="og:type" content="website" />
+<meta name="theme-color" content="#0b0b0c" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet" />
+<style>
+  *,*::before,*::after{box-sizing:border-box}
+  html,body{height:100%;margin:0}
+  :root{
+    --bg:#fff; --ink:#0e0e10; --ink-soft:#2a2a2b; --muted:#e9e9ec;
+    --radius:18px; --num:25px; --gap:16px; --sub-dg:#4b4f55; /* dark grey subtext */
+  }
+  body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;background:var(--bg);color:var(--ink)}
 
-    /* No snapping now */
-    .snapper { height: 100svh; overflow-y: auto; -webkit-overflow-scrolling: touch; }
-    section { min-height: 100svh; position: relative; display: grid; place-items: stretch; }
+  /* ===== Scroll snapping (gentle) ===== */
+  .snapper{
+    height:100svh;
+    overflow-y:auto;
+    scroll-snap-type:y proximity;   /* change to 'mandatory' for harder lock */
+    scroll-behavior:smooth;
+    -webkit-overflow-scrolling:touch;
+    overscroll-behavior-y:contain;
+  }
+  section{
+    min-height:100svh;
+    position:relative;
+    display:grid;
+    place-items:stretch;
+    scroll-snap-align:start;
+    scroll-snap-stop:always;
+  }
 
-    /* PAGE 1 — HERO */
-    .hero { color: #fff; overflow: hidden; border-bottom-left-radius: var(--radius); border-bottom-right-radius: var(--radius); z-index: 1; }
-    .hero__bg { position: absolute; inset: 0; background: #000 center/cover no-repeat; filter: brightness(0.74); }
-    /* Placeholder image (swap later) */
-    .hero__bg { background-image: image-set(
-      url('https://images.unsplash.com/photo-1529429612779-c8e40ef2f36c?q=80&w=1200&auto=format&fit=crop') 1x,
-      url('https://images.unsplash.com/photo-1529429612779-c8e40ef2f36c?q=80&w=2400&auto=format&fit=crop') 2x
-    ); }
+  /* ===== Page 1 — Hero ===== */
+  .hero{color:#fff;overflow:hidden;border-bottom-left-radius:var(--radius);border-bottom-right-radius:var(--radius);z-index:1}
+  .hero__bg{position:absolute;inset:0;background:#000 center/cover no-repeat;filter:brightness(.74)}
+  /* Placeholder photo (replace later) */
+  .hero__bg{background-image:image-set(
+    url('https://images.unsplash.com/photo-1529429612779-c8e40ef2f36c?q=80&w=1200&auto=format&fit=crop') 1x,
+    url('https://images.unsplash.com/photo-1529429612779-c8e40ef2f36c?q=80&w=2400&auto=format&fit=crop') 2x
+  )}
+  .hero__content{
+    position:relative;z-index:1;width:min(92vw,860px);margin:0 auto;
+    display:grid;grid-template-rows:auto 1fr 0;align-content:stretch;
+    padding:max(16px,env(safe-area-inset-top)) 22px 22px;
+  }
+  .logo{
+    font-family:"Libre Baskerville",serif;font-weight:700;letter-spacing:.015em;
+    font-size:clamp(44px,10vw,80px);line-height:1.05;text-align:left;
+  }
+  /* Tagline ~25% above bottom */
+  .tagline{
+    position:absolute;left:22px;right:22px;bottom:25%;
+    font-weight:600;font-size:clamp(22px,6vw,32px);text-align:left;opacity:.98;
+  }
+  @media (max-height:700px){.tagline{bottom:18%}}
 
-    .hero__content {
-      position: relative; z-index: 1;
-      width: min(92vw, 860px); margin: 0 auto;
-      display: grid; grid-template-rows: auto 1fr 0;
-      align-content: stretch; padding: max(16px, env(safe-area-inset-top)) 22px 22px;
-    }
-    .logo {
-      font-family: "Libre Baskerville", serif; font-weight: 700;
-      letter-spacing: .015em; font-size: clamp(44px, 10vw, 80px);
-      line-height: 1.05; text-align: left;
-    }
-    /* Tagline ~25% above bottom (with short-screen fallback) */
-    .tagline {
-      position: absolute; left: 22px; right: 22px; bottom: 25%;
-      font-weight: 600; font-size: clamp(22px, 6vw, 32px);
-      text-align: left; opacity: .98;
-    }
-    @media (max-height: 700px) { .tagline { bottom: 18%; } }
+  /* ===== Page 2 — Business Areas (straight rounded divider; NO “Focus”) ===== */
+  .areas{background:#fff;border-top-left-radius:var(--radius);border-top-right-radius:var(--radius);margin-top:-18px;z-index:2}
+  .areas__wrap{width:min(92vw,860px);margin:0 auto;padding:22px 0 30px}
+  .eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#666;margin:0 0 12px}
 
-    /* PAGE 2 — BUSINESS AREAS (straight rounded divider, no “Focus” heading) */
-    .areas {
-      background: #fff;
-      border-top-left-radius: var(--radius);
-      border-top-right-radius: var(--radius);
-      margin-top: -18px;
-      z-index: 2;
-    }
-    .areas__wrap { width: min(92vw, 860px); margin: 0 auto; padding: 26px 0 34px; }
-    .areas__eyebrow { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: #666; margin-bottom: 10px; }
-    .section-title { font-family: "Libre Baskerville", serif; font-weight: 700; font-size: clamp(20px, 4.8vw, 28px); margin: 0 0 8px; }
+  .areas__list{list-style:none;margin:0;padding:0}
+  .area-item{padding:20px 0}
+  .area-item + .area-item{border-top:1px solid var(--muted)}
 
-    .areas__list { list-style: none; margin: 0; padding: 0; }
-    .area-item { padding: 22px 0; }
-    .area-item + .area-item { border-top: 1px solid var(--muted); }
+  /* number + title aligned on same baseline; subtext indented to title start */
+  .area-row{display:flex;align-items:baseline;gap:var(--gap)}
+  .num{
+    width:var(--num);height:var(--num);border-radius:999px;
+    background:#0d0d0f;color:#fff;display:inline-flex;align-items:center;justify-content:center;
+    font-weight:700;font-size:13px;line-height:1;
+  }
+  .title{
+    font-family:"Libre Baskerville",serif;font-weight:700;letter-spacing:.01em;
+    font-size:clamp(26px,6.5vw,34px);line-height:1.15;margin:0;
+  }
+  .sub{
+    display:block;margin-left:calc(var(--num) + var(--gap));margin-top:6px;
+    color:var(--sub-dg);font-size:clamp(16px,4.2vw,18px);
+  }
+  @media (max-height:700px){
+    .area-item{padding:16px 0}
+    .title{font-size:clamp(24px,6.8vw,32px)}
+    .sub{font-size:clamp(15px,4.1vw,17px)}
+  }
 
-    /* Row = number + title aligned on baseline; subtext sits underneath, indented to the title */
-    .area-row { display: flex; align-items: baseline; gap: var(--gap); }
-    .num {
-      flex: 0 0 auto; width: var(--num); height: var(--num); border-radius: 999px;
-      background: #0d0d0f; color: #fff; display: inline-flex; align-items: center; justify-content: center;
-      font-weight: 700; font-size: 13px; line-height: 1;  /* ~10% smaller */
-      transform: translateY(2px); /* tiny optical tweak to match text baseline */
-    }
-    .title {
-      font-family: "Libre Baskerville", serif;  /* same as section titles */
-      font-weight: 700; letter-spacing: .01em; font-size: clamp(26px, 6.5vw, 34px); /* ~20% larger */
-      line-height: 1.15; margin: 0;
-    }
-    .sub {
-      display: block; color: var(--sub-dg); margin-top: 6px;
-      font-size: clamp(16px, 4.2vw, 18px); /* ~50% larger baseline */
-      /* indent subtext so it lines up with the start of the title */
-      margin-left: calc(var(--num) + var(--gap));
-    }
+  /* ===== Page 3 — Contact (flat; header style IDENTICAL to eyebrow) ===== */
+  .contact{background:#fff}
+  .contact__wrap{width:min(92vw,860px);margin:0 auto;padding:22px 0 34px}
+  .contact-head{display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .contact-head .eyebrow{margin:0}    /* same class & style as Business Areas */
+  .wx{font-size:12px;letter-spacing:.12em;color:#8a8a8f;white-space:nowrap}
 
-    @media (max-height: 700px) {
-      .area-item { padding: 18px 0; }
-      .title { font-size: clamp(24px, 6.8vw, 32px); }
-      .sub   { font-size: clamp(15px, 4.1vw, 17px); }
-    }
+  form{display:grid;gap:14px;margin-top:12px}
+  label{font-size:13px;opacity:.85}
+  input,textarea{width:100%;font:inherit;padding:12px 14px;border:1px solid var(--muted);border-radius:12px;background:#fff}
+  textarea{min-height:130px;resize:vertical}
+  button{appearance:none;border:none;border-radius:999px;padding:12px 18px;font-weight:600;background:#0e0e10;color:#fff;cursor:pointer;width:fit-content}
 
-    /* PAGE 3 — CONTACT (flat; same heading font as Business Areas) */
-    .contact { background: #fff; }
-    .contact__wrap { width: min(92vw, 860px); margin: 0 auto; padding: 26px 0 34px; }
-    .contact-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-    .contact-head .section-title { margin: 0; } /* same class + font as Business Areas */
-    .wx { font-size: 12px; letter-spacing: .12em; color: #8a8a8f; white-space: nowrap; }
-
-    form { display: grid; gap: 14px; margin-top: 14px; }
-    label { font-size: 13px; opacity: 0.85; }
-    input, textarea { width: 100%; font: inherit; padding: 12px 14px; border: 1px solid var(--muted); border-radius: 12px; background: #fff; }
-    textarea { min-height: 130px; resize: vertical; }
-    button { appearance: none; border: none; border-radius: 999px; padding: 12px 18px; font-weight: 600; background: #0e0e10; color: #fff; cursor: pointer; width: fit-content; }
-
-    /* Reveal animations with safe default (visible if JS fails) */
-    .reveal-x, .reveal-up { opacity: 1; transform: none; }
-    .animate .reveal-x, .animate .reveal-up { opacity: 0; }
-    .animate .reveal-x { transform: translateX(28px); }
-    .animate .reveal-up { transform: translateY(24px); }
-    .in-view { opacity: 1 !important; transform: none !important; transition: transform .52s ease, opacity .52s ease; transition-delay: var(--d, 0ms); }
-  </style>
+  /* Reveal helpers: visible by default so nothing disappears on iPhone */
+  .reveal-x,.reveal-up{opacity:1;transform:none}
+  .in-view{opacity:1;transform:none;transition:transform .5s ease,opacity .5s ease;transition-delay:var(--d,0ms)}
+</style>
 </head>
-<body class="animate">
+<body>
   <main class="snapper" id="top">
     <!-- PAGE 1 -->
     <section class="hero" aria-label="Intro">
@@ -137,7 +125,7 @@
     <!-- PAGE 2 -->
     <section class="areas" aria-label="Business areas">
       <div class="areas__wrap">
-        <div class="areas__eyebrow">BUSINESS AREAS</div>
+        <div class="eyebrow">BUSINESS AREAS</div>
         <ol class="areas__list">
           <li class="area-item reveal-x" style="--d:60ms">
             <div class="area-row">
@@ -146,7 +134,6 @@
             </div>
             <small class="sub">Deal sourcing via our extensive local network</small>
           </li>
-
           <li class="area-item reveal-x" style="--d:120ms">
             <div class="area-row">
               <span class="num">2</span>
@@ -154,7 +141,6 @@
             </div>
             <small class="sub">Lead investor and co-investment</small>
           </li>
-
           <li class="area-item reveal-x" style="--d:180ms">
             <div class="area-row">
               <span class="num">3</span>
@@ -162,7 +148,6 @@
             </div>
             <small class="sub">Property development across project stages</small>
           </li>
-
           <li class="area-item reveal-x" style="--d:240ms">
             <div class="area-row">
               <span class="num">4</span>
@@ -178,7 +163,7 @@
     <section class="contact" aria-label="Contact">
       <div class="contact__wrap">
         <div class="contact-head">
-          <h2 class="section-title">Contact us</h2>
+          <div class="eyebrow">CONTACT US</div>   <!-- identical style to Business Areas -->
           <div class="wx" id="wx"></div>
         </div>
         <form id="contactForm" action="https://formspree.io/f/your-form-id" method="POST">
@@ -201,43 +186,38 @@
     </section>
   </main>
 
-  <script>
-    /* Reveal with the correct scroll container + fallback */
-    const scroller = document.querySelector('.snapper');
-    const targets = document.querySelectorAll('.reveal-x, .reveal-up');
-    let io;
-    try {
-      io = new IntersectionObserver((entries)=>{
-        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in-view'); });
-      }, { root: scroller, threshold: 0.15 });
-      targets.forEach(el => io.observe(el));
-    } catch { targets.forEach(el => el.classList.add('in-view')); }
-    requestAnimationFrame(()=> document.body.classList.remove('animate'));
+<script>
+  /* Lightweight "in-view" (kept non-blocking) */
+  const scroller=document.querySelector('.snapper');
+  const targets=document.querySelectorAll('.reveal-x,.reveal-up');
+  try{
+    const io=new IntersectionObserver((ents)=>{
+      ents.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in-view'); });
+    },{root:scroller,threshold:0.15});
+    targets.forEach(t=>io.observe(t));
+  }catch{}
 
-    /* Contact form (Formspree) */
-    const form = document.getElementById('contactForm');
-    const status = document.getElementById('status');
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      status.textContent = 'Sending…';
-      try {
-        const data = new FormData(form);
-        const res = await fetch(form.action, { method: form.method, body: data, headers: { 'Accept': 'application/json' } });
-        if (res.ok) { status.textContent = 'Thanks — we\\'ll get back to you shortly.'; form.reset(); }
-        else { const json = await res.json().catch(()=>({})); status.textContent = json?.errors?.[0]?.message || 'Something went wrong. Please email us directly.'; }
-      } catch { status.textContent = 'Network error. Please try again or email us directly.'; }
-    });
+  /* Contact form (Formspree) */
+  const form=document.getElementById('contactForm'); const status=document.getElementById('status');
+  form.addEventListener('submit',async(e)=>{
+    e.preventDefault(); status.textContent='Sending…';
+    try{
+      const data=new FormData(form);
+      const res=await fetch(form.action,{method:form.method,body:data,headers:{Accept:'application/json'}});
+      if(res.ok){ status.textContent='Thanks — we’ll get back to you shortly.'; form.reset(); }
+      else{ const j=await res.json().catch(()=>({})); status.textContent=j?.errors?.[0]?.message||'Something went wrong. Please email us directly.'; }
+    }catch{ status.textContent='Network error. Please try again or email us directly.'; }
+  });
 
-    /* Lisbon temperature (no API key) — optional badge */
-    const wxEl = document.getElementById('wx');
-    (async () => {
-      try {
-        const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=38.72&longitude=-9.14&current_weather=true');
-        const data = await res.json();
-        const t = Math.round((data?.current_weather?.temperature ?? 0));
-        if (!Number.isNaN(t) && t !== 0) wxEl.textContent = `${t}°C LISBON`; else wxEl.remove();
-      } catch { wxEl.remove(); }
-    })();
-  </script>
+  /* Lisbon temperature badge (no API key) */
+  (async()=>{
+    const el=document.getElementById('wx'); if(!el) return;
+    try{
+      const r=await fetch('https://api.open-meteo.com/v1/forecast?latitude=38.72&longitude=-9.14&current_weather=true');
+      const d=await r.json(); const t=Math.round(d?.current_weather?.temperature ?? NaN);
+      if(Number.isFinite(t)) el.textContent=`${t}°C LISBON`; else el.remove();
+    }catch{ el.remove(); }
+  })();
+</script>
 </body>
 </html>
