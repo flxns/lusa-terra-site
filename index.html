@@ -11,10 +11,8 @@
   <meta name="theme-color" content="#0b0b0c" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <!-- Body text = Inter; Brand wordmark = Libre Baskerville (slightly different from Playfair per your request) -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet" />
   <style>
-    /* Reset & tokens */
     *, *::before, *::after { box-sizing: border-box; }
     html, body { height: 100%; margin: 0; }
     :root {
@@ -22,18 +20,18 @@
       --ink: #0e0e10;
       --ink-soft: #2a2a2b;
       --muted: #e9e9ec;
-      --radius: 18px; /* rounded top of section 2 */
+      --radius: 18px;
     }
     body { font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; color: var(--ink); background: var(--bg); }
 
-    /* 3 full screens; softer snap so transitions aren’t too fast */
+    /* 3 full screens; softer snap */
     .snapper { height: 100svh; overflow-y: auto; scroll-snap-type: y proximity; -webkit-overflow-scrolling: touch; }
     section { min-height: 100svh; scroll-snap-align: start; position: relative; display: grid; place-items: stretch; }
 
-    /* PAGE 1 — HERO (Bondstone-like layout) */
+    /* PAGE 1 — HERO */
     .hero { color: #fff; overflow: hidden; border-bottom-left-radius: var(--radius); border-bottom-right-radius: var(--radius); z-index: 1; }
     .hero__bg { position: absolute; inset: 0; background: #000 center/cover no-repeat; filter: brightness(0.74); }
-    /* Use any architectural photo you prefer here */
+    /* Placeholder image (replace anytime) */
     .hero__bg { background-image: image-set(
       url('https://images.unsplash.com/photo-1529429612779-c8e40ef2f36c?q=80&w=1200&auto=format&fit=crop') 1x,
       url('https://images.unsplash.com/photo-1529429612779-c8e40ef2f36c?q=80&w=2400&auto=format&fit=crop') 2x
@@ -42,26 +40,32 @@
     .hero__content {
       position: relative; z-index: 1;
       width: min(92vw, 860px); margin: 0 auto;
-      display: grid; grid-template-rows: auto 1fr auto;
+      display: grid; grid-template-rows: auto 1fr 0; /* bottom space handled by absolute tagline */
       align-content: stretch; padding: max(16px, env(safe-area-inset-top)) 22px 22px;
     }
     .logo {
       font-family: "Libre Baskerville", serif; font-weight: 700;
       letter-spacing: .015em; font-size: clamp(44px, 10vw, 80px);
-      line-height: 1.05; text-align: left; /* large brand top-left */
+      line-height: 1.05; text-align: left;
     }
+    /* Tagline ~25% above the bottom of the hero */
     .tagline {
-      align-self: end; justify-self: start; margin-bottom: 8px;
+      position: absolute; left: 22px; right: 22px;
+      bottom: 25%;
       font-weight: 600; font-size: clamp(22px, 6vw, 32px);
       text-align: left; opacity: .98;
     }
+    /* On very short screens, reduce lift so it doesn't crowd */
+    @media (max-height: 700px) {
+      .tagline { bottom: 18%; }
+    }
 
-    /* PAGE 2 — BUSINESS AREAS (straight divider with rounded corners) */
+    /* PAGE 2 — BUSINESS AREAS (straight rounded divider) */
     .areas {
       background: #fff;
       border-top-left-radius: var(--radius);
       border-top-right-radius: var(--radius);
-      margin-top: -18px;   /* overlaps hero cleanly */
+      margin-top: -18px;
       z-index: 2;
     }
     .areas__wrap { width: min(92vw, 860px); margin: 0 auto; padding: 26px 0 34px; }
@@ -71,24 +75,17 @@
     .areas__list { list-style: none; margin: 0; padding: 0; }
     .area-item { display: grid; grid-template-columns: auto 1fr; gap: 16px; padding: 24px 0; align-items: start; }
     .area-item + .area-item { border-top: 1px solid var(--muted); }
+    .num { width: 25px; height: 25px; border-radius: 999px; background: #0d0d0f; color: #fff; display: grid; place-items: center; font-weight: 700; font-size: 13px; }
+    .txt .title { font-weight: 700; letter-spacing: .01em; font-size: clamp(26px, 6.5vw, 34px); }
+    .txt small { display:block; color: var(--ink-soft); margin-top: 6px; font-size: clamp(16px, 4.2vw, 18px); }
 
-    /* Size tuning per your request */
-    .num {
-      width: 25px; height: 25px; border-radius: 999px;
-      background: #0d0d0f; color: #fff; display: grid; place-items: center;
-      font-weight: 700; font-size: 13px; /* ~10% smaller */
-    }
-    .txt .title { font-weight: 700; letter-spacing: .01em; font-size: clamp(26px, 6.5vw, 34px); } /* ~20% larger */
-    .txt small { display:block; color: var(--ink-soft); margin-top: 6px; font-size: clamp(16px, 4.2vw, 18px); } /* ~50% larger baseline */
-
-    /* Fill screen better on mobile by tightening vertical rhythm slightly on small heights */
     @media (max-height: 700px) {
       .area-item { padding: 18px 0; }
       .txt .title { font-size: clamp(24px, 6.8vw, 32px); }
       .txt small { font-size: clamp(15px, 4.1vw, 17px); }
     }
 
-    /* PAGE 3 — CONTACT (flat, not boxed) */
+    /* PAGE 3 — CONTACT (flat) */
     .contact { background: #fff; }
     .contact__wrap { width: min(92vw, 860px); margin: 0 auto; padding: 26px 0 34px; }
     .contact-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
@@ -96,14 +93,11 @@
 
     form { display: grid; gap: 14px; margin-top: 10px; }
     label { font-size: 13px; opacity: 0.85; }
-    input, textarea {
-      width: 100%; font: inherit; padding: 12px 14px;
-      border: 1px solid var(--muted); border-radius: 12px; background: #fff;
-    }
+    input, textarea { width: 100%; font: inherit; padding: 12px 14px; border: 1px solid var(--muted); border-radius: 12px; background: #fff; }
     textarea { min-height: 130px; resize: vertical; }
     button { appearance: none; border: none; border-radius: 999px; padding: 12px 18px; font-weight: 600; background: #0e0e10; color: #fff; cursor: pointer; width: fit-content; }
 
-    /* Subtle reveal animations */
+    /* Reveal animations */
     .reveal-x, .reveal-up { opacity: 0; transform: translate3d(0,0,0); will-change: transform, opacity; }
     .reveal-x { transform: translateX(28px); }
     .reveal-up { transform: translateY(24px); }
@@ -202,12 +196,12 @@
       try {
         const data = new FormData(form);
         const res = await fetch(form.action, { method: form.method, body: data, headers: { 'Accept': 'application/json' } });
-        if (res.ok) { status.textContent = 'Thanks — we\'ll get back to you shortly.'; form.reset(); }
+        if (res.ok) { status.textContent = 'Thanks — we\\'ll get back to you shortly.'; form.reset(); }
         else { const json = await res.json().catch(()=>({})); status.textContent = json?.errors?.[0]?.message || 'Something went wrong. Please email us directly.'; }
       } catch { status.textContent = 'Network error. Please try again or email us directly.'; }
     });
 
-    /* Lightweight Lisbon temperature (no API key). If it fails, it hides itself. */
+    /* Lisbon temperature (no API key) */
     const wxEl = document.getElementById('wx');
     (async () => {
       try {
