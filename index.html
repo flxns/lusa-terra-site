@@ -22,7 +22,7 @@
     --radius:18px; --num:28px; --gap:16px; --sub-dg:#4b4f55;
     --container-max:1400px;
     --pad-x:clamp(16px,4vw,48px);          /* unified left/right gutter */
-    --sub-extra:14px;                      /* extra indent for mobile grey copy */
+    --sub-extra:14px;                      /* extra indent for mobile grey copy (overridden below) */
 
     /* language toggle vertical alignment per section */
     --lang-top-hero:   calc(max(16px, env(safe-area-inset-top)));
@@ -69,15 +69,22 @@
   .area-item{padding:20px 0}
   .area-item + .area-item{border-top:1px solid var(--muted)}
 
-  /* Heading row: circle perfectly centered with title (also fixes digit "3") */
-  .area-left{display:flex;align-items:center;gap:var(--gap)}
+  /* Heading row: circle + title with rock-solid vertical alignment (fixes “3”) */
+  .area-left{
+    display:grid;
+    grid-template-columns: var(--num) 1fr;  /* fixed circle column */
+    align-items:center;
+    column-gap:var(--gap);
+  }
   .num{
     width:var(--num);height:var(--num);border-radius:999px;background:#0d0d0f;color:#fff;
     display:grid;place-items:center;font-weight:700;font-size:13px;line-height:1;
     font-variant-numeric:tabular-nums;
   }
   .title{font-family:"Libre Baskerville",serif;font-weight:700;letter-spacing:.01em;font-size:clamp(26px,6.5vw,34px);line-height:1.15;margin:0}
-  .sub{display:block;margin-left:calc(var(--num) + var(--gap) + var(--sub-extra));margin-top:6px;color:var(--sub-dg);font-size:clamp(16px,4.2vw,18px)}
+
+  /* Mobile default: grey copy indented to align exactly under the title start */
+  .sub{display:block;margin-left:calc(var(--num) + var(--gap));margin-top:6px;color:var(--sub-dg);font-size:clamp(16px,4.2vw,18px)}
 
   /* Desktop: two columns with generous gap so long PT headings don't crowd copy */
   @media (min-width:1024px){
@@ -85,9 +92,14 @@
     .logo{font-size:clamp(80px,8vw,160px)}
     .tagline{left:var(--pad-x);right:var(--pad-x);bottom:20%;font-size:clamp(28px,3vw,48px)}
 
-    .area-item{display:grid;grid-template-columns:minmax(360px,0.6fr) 1fr;column-gap:calc(clamp(48px,6vw,120px) + 16px);align-items:center}
+    .area-item{
+      display:grid;
+      grid-template-columns:minmax(480px,0.62fr) 1fr; /* wider left column for PT */
+      column-gap:calc(clamp(48px,6vw,120px) + 16px);
+      align-items:center;
+    }
     .sub{margin-left:0;font-size:clamp(16px,1.3vw,20px)}
-    .title{font-size:clamp(30px,3.4vw,45px)}
+    .title{font-size:clamp(30px,3.4vw,45px);line-height:1.15}
   }
 
   /* ===== Contact (Page 3) ===== */
