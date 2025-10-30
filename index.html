@@ -22,12 +22,12 @@
     --radius:18px; --num:28px; --gap:16px; --sub-dg:#4b4f55;
     --container-max:1400px;
     --pad-x:clamp(16px,4vw,48px);          /* unified left/right gutter */
-    --sub-extra:14px;                      /* extra indent for mobile grey copy (overridden below) */
+    --sub-extra:14px;
 
     /* language toggle vertical alignment per section */
     --lang-top-hero:   calc(max(16px, env(safe-area-inset-top)));
-    --lang-top-areas:  22px;               /* matches Business Areas row top */
-    --lang-top-contact:22px;               /* matches Contact row top */
+    --lang-top-areas:  22px;
+    --lang-top-contact:22px;
   }
   body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;background:var(--bg);color:var(--ink)}
   .wrap{width:min(95vw,var(--container-max));margin-inline:auto;padding-inline:var(--pad-x);}
@@ -50,14 +50,13 @@
   /* ===== Language toggle (text only) ===== */
   #langToggle{
     position:fixed;
-    right:calc((100vw - min(95vw, var(--container-max)))/2 + var(--pad-x)); /* align with content right edge */
-    top:var(--lang-top-hero);                    /* default on hero */
+    right:calc((100vw - min(95vw, var(--container-max)))/2 + var(--pad-x));
+    top:var(--lang-top-hero);
     z-index:5;background:none;border:none;padding:0;margin:0;cursor:pointer;
     font-weight:600;font-size:12px;letter-spacing:.06em;color:#a0a5ab
   }
   #langToggle:hover{color:#5b5f64}
   #langToggle:focus-visible{outline:2px solid #b8bcc2;outline-offset:2px}
-  /* switch vertical top based on active section */
   body[data-section="areas"]   #langToggle{ top:var(--lang-top-areas); }
   body[data-section="contact"] #langToggle{ top:var(--lang-top-contact); }
 
@@ -69,10 +68,10 @@
   .area-item{padding:20px 0}
   .area-item + .area-item{border-top:1px solid var(--muted)}
 
-  /* Heading row: circle + title with rock-solid vertical alignment (fixes “3”) */
+  /* circle + title alignment */
   .area-left{
     display:grid;
-    grid-template-columns: var(--num) 1fr;  /* fixed circle column */
+    grid-template-columns: var(--num) 1fr;
     align-items:center;
     column-gap:var(--gap);
   }
@@ -83,10 +82,10 @@
   }
   .title{font-family:"Libre Baskerville",serif;font-weight:700;letter-spacing:.01em;font-size:clamp(26px,6.5vw,34px);line-height:1.15;margin:0}
 
-  /* Mobile default: grey copy indented to align exactly under the title start */
+  /* Mobile: subcopy aligned exactly with the title start */
   .sub{display:block;margin-left:calc(var(--num) + var(--gap));margin-top:6px;color:var(--sub-dg);font-size:clamp(16px,4.2vw,18px)}
 
-  /* Desktop: two columns with generous gap so long PT headings don't crowd copy */
+  /* Desktop layout */
   @media (min-width:1024px){
     .hero__content.wrap,.areas__wrap.wrap,.contact__wrap.wrap{width:min(95vw,var(--container-max))}
     .logo{font-size:clamp(80px,8vw,160px)}
@@ -94,7 +93,7 @@
 
     .area-item{
       display:grid;
-      grid-template-columns:minmax(480px,0.62fr) 1fr; /* wider left column for PT */
+      grid-template-columns:minmax(480px,0.62fr) 1fr;
       column-gap:calc(clamp(48px,6vw,120px) + 16px);
       align-items:center;
     }
@@ -108,9 +107,7 @@
   .contact-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px}
   .contact-head .eyebrow{margin:0}
   .wx{font-size:12px;letter-spacing:.12em;color:#8a8a8f;white-space:nowrap}
-  /* Mobile: ensure weather doesn't collide with PT/EN */
   @media (max-width:480px){ .wx{ margin-right:calc(var(--pad-x) + 72px); } }
-  /* Desktop: pull weather inward to avoid overlap with fixed PT/EN on the far right */
   @media (min-width:1024px){ .contact .wx{ margin-right:90px; } }
 
   form{display:grid;gap:14px;margin-top:12px}
@@ -161,7 +158,7 @@
               <h3 class="title" data-i18n="t2">Investment</h3>
             </div>
             <div class="area-right reveal-x" style="--d:240ms">
-              <small class="sub" data-i18n="s2">Lead investor and co-investment</small>
+              <small class="sub" data-i18n="s2">Principal investing &amp; co-investment</small>
             </div>
           </li>
           <li class="area-item">
@@ -170,7 +167,7 @@
               <h3 class="title" data-i18n="t3">Development</h3>
             </div>
             <div class="area-right reveal-x" style="--d:360ms">
-              <small class="sub" data-i18n="s3">Property development across project stages</small>
+              <small class="sub" data-i18n="s3">Property development across the full value-creation lifecycle</small>
             </div>
           </li>
           <li class="area-item">
@@ -179,7 +176,7 @@
               <h3 class="title" data-i18n="t4">Management</h3>
             </div>
             <div class="area-right reveal-x" style="--d:480ms">
-              <small class="sub" data-i18n="s4">Property management and operations</small>
+              <small class="sub" data-i18n="s4">Asset &amp; property management</small>
             </div>
           </li>
         </ol>
@@ -226,7 +223,7 @@
     }catch{}
   })();
 
-  /* Track active section (hero/areas/contact) to vertically align PT/EN with headers */
+  /* Track active section for PT/EN vertical sync */
   (function(){
     const body = document.body;
     const root = document.querySelector('.snapper') || null;
@@ -244,7 +241,6 @@
       }, { threshold:[0.1,0.25,0.5,0.75,1], root });
       sections.forEach(([el])=>io.observe(el));
     }catch{
-      // Fallback: simple scroll handler
       const tops = sections.map(([el,key])=>({key,el,top:el.offsetTop}));
       (document.querySelector('.snapper')||window).addEventListener('scroll',()=>{
         const y = (document.querySelector('.snapper')||document.documentElement).scrollTop || 0;
@@ -262,9 +258,9 @@
       areasHeading: "BUSINESS AREAS",
       t1: "Origination", t2: "Investment", t3: "Development", t4: "Management",
       s1: "Deal sourcing via our extensive local network",
-      s2: "Lead investor and co-investment",
-      s3: "Property development across project stages",
-      s4: "Property management and operations",
+      s2: "Principal investing & co-investment",
+      s3: "Property development across the full value-creation lifecycle",
+      s4: "Asset & property management",
       contactHeading: "CONTACT US",
       labelName: "Your name",
       labelEmail: "Email",
@@ -277,10 +273,10 @@
       tagline: "Paixão pelo investimento imobiliário em Portugal",
       areasHeading: "ÁREAS DE NEGÓCIO",
       t1: "Originação", t2: "Investimento", t3: "Desenvolvimento", t4: "Gestão",
-      s1: "Originação de negócios através da nossa vasta rede local",
-      s2: "Investidor âncora e co-investimento",
-      s3: "Promoção imobiliária em todas as fases do projeto",
-      s4: "Gestão e operação de ativos",
+      s1: "Originação de negócios através da nossa extensa rede local",
+      s2: "Investimento principal e co-investimento",
+      s3: "Desenvolvimento ao longo de todo o ciclo de criação de valor",
+      s4: "Gestão de ativos e de propriedades",
       contactHeading: "CONTACTE-NOS",
       labelName: "O seu nome",
       labelEmail: "Email",
