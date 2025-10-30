@@ -17,15 +17,19 @@
   *,*::before,*::after{box-sizing:border-box}
   html,body{height:100%;margin:0}
   :root{
-    --bg:#fff; --ink:#0e0e10; --ink-soft:#2a2a2b; --muted:#e9e9ec;
+    --bg:#fff; --ink:#0e0e10; --muted:#e9e9ec;
     --radius:18px; --num:25px; --gap:16px; --sub-dg:#4b4f55;
+    --container-max:1400px;
+    --pad-x:clamp(16px,4vw,48px);   /* single left/right gutter for ALL pages */
   }
   body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;background:var(--bg);color:var(--ink)}
 
-  /* ===== Scroll snapping (keep) ===== */
+  .wrap{width:min(95vw,var(--container-max));margin-inline:auto;padding-inline:var(--pad-x);}
+
+  /* ===== Scroll snapping (kept) ===== */
   .snapper{
     height:100svh; overflow-y:auto;
-    scroll-snap-type:y proximity;      /* gentle snap as requested */
+    scroll-snap-type:y proximity;      /* gentle snap */
     scroll-behavior:smooth;
     -webkit-overflow-scrolling:touch;
     overscroll-behavior-y:contain;
@@ -42,37 +46,35 @@
     url('https://images.unsplash.com/photo-1529429612779-c8e40ef2f36c?q=80&w=1200&auto=format&fit=crop') 1x,
     url('https://images.unsplash.com/photo-1529429612779-c8e40ef2f36c?q=80&w=2400&auto=format&fit=crop') 2x
   )}
-  .hero__content{
-    position:relative; z-index:1;
-    width:min(92vw,860px);              /* mobile/tablet width */
-    margin:0 auto;
-    display:grid; grid-template-rows:auto 1fr 0; align-content:stretch;
-    padding:max(16px,env(safe-area-inset-top)) 22px 22px;
-  }
+  .hero__content{position:relative; z-index:1;}
+  .hero__content.wrap{padding-top:max(16px,env(safe-area-inset-top))}
   .logo{
     font-family:"Libre Baskerville",serif; font-weight:700; letter-spacing:.015em;
     font-size:clamp(44px,10vw,80px); line-height:1.05; text-align:left;
   }
   .tagline{
-    position:absolute; left:22px; right:22px; bottom:25%;
+    position:absolute; left:var(--pad-x); right:var(--pad-x); bottom:25%;
     font-weight:600; font-size:clamp(22px,6vw,32px); text-align:left; opacity:.98;
   }
   @media (max-height:700px){.tagline{bottom:18%}}
 
-  /* ===== Page 2 — Business Areas (rounded only at top) ===== */
-  .areas{
-    background:#fff; border-radius:0;
-    border-top-left-radius:var(--radius); border-top-right-radius:var(--radius);
-    margin-top:-18px; z-index:2;
+  /* Language toggle */
+  .lang{
+    position:fixed; top:14px; right:16px; z-index:5;
+    padding:6px 10px; border-radius:999px; border:1px solid #999; background:#fff; color:#666;
+    font-weight:600; font-size:12px; letter-spacing:.06em;
   }
-  .areas__wrap{width:min(92vw,860px); margin:0 auto; padding:22px 0 30px}
+
+  /* ===== Page 2 — Business Areas ===== */
+  .areas{background:#fff;border-radius:0;border-top-left-radius:var(--radius);border-top-right-radius:var(--radius);margin-top:-18px;z-index:2}
+  .areas__wrap{padding-block:22px 30px}
   .eyebrow{font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:#666; margin:0 0 12px}
 
   .areas__list{list-style:none; margin:0; padding:0}
   .area-item{padding:20px 0}
   .area-item + .area-item{border-top:1px solid var(--muted)}
 
-  .area-row{display:flex; align-items:baseline; gap:var(--gap)}
+  .area-left{display:flex; align-items:baseline; gap:var(--gap)}
   .num{
     width:var(--num); height:var(--num); border-radius:999px; background:#0d0d0f; color:#fff;
     display:inline-flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; line-height:1;
@@ -85,15 +87,21 @@
     display:block; margin-left:calc(var(--num) + var(--gap)); margin-top:6px;
     color:var(--sub-dg); font-size:clamp(16px,4.2vw,18px);
   }
-  @media (max-height:700px){
-    .area-item{padding:16px 0}
-    .title{font-size:clamp(24px,6.8vw,32px)}
-    .sub{font-size:clamp(15px,4.1vw,17px)}
+
+  /* Desktop: left-align everything to same gutter and switch to two columns */
+  @media (min-width:1024px){
+    .hero__content.wrap,.areas__wrap.wrap,.contact__wrap.wrap{width:min(95vw,var(--container-max))}
+    .logo{font-size:clamp(80px,8vw,160px)}
+    .tagline{left:var(--pad-x); right:var(--pad-x); bottom:20%; font-size:clamp(28px,3vw,48px)}
+
+    .area-item{display:grid; grid-template-columns:minmax(360px,0.6fr) 1fr; column-gap:clamp(24px,4vw,64px); align-items:baseline}
+    .sub{margin-left:0; font-size:clamp(16px,1.3vw,20px)}
+    .title{font-size:clamp(30px,3.4vw,45px)} /* ~20% smaller than before */
   }
 
-  /* ===== Page 3 — Contact (flat; eyebrow identical) ===== */
-  .contact{background:#fff; border-radius:0}
-  .contact__wrap{width:min(92vw,860px); margin:0 auto; padding:22px 0 34px}
+  /* ===== Page 3 — Contact (flat; same eyebrow style) ===== */
+  .contact{background:#fff;border-radius:0}
+  .contact__wrap{padding-block:22px 34px}
   .contact-head{display:flex; align-items:center; justify-content:space-between; gap:16px}
   .contact-head .eyebrow{margin:0}
   .wx{font-size:12px; letter-spacing:.12em; color:#8a8a8f; white-space:nowrap}
@@ -109,66 +117,64 @@
   .js .reveal-x { opacity:0; transform:translateX(28px); }
   .js .reveal-up { opacity:0; transform:translateY(24px); }
   .in-view { opacity:1 !important; transform:none !important; }
-
-  /* ===== Desktop widening / type scale ===== */
-  @media (min-width: 1024px){
-    .hero__content{width:min(95vw,1400px);}
-    .logo{font-size:clamp(80px,8vw,160px);}
-    .tagline{left:4vw; right:4vw; font-size:clamp(28px,3vw,48px); bottom:20%;}
-    .areas__wrap{width:min(95vw,1400px); padding:36px 0 44px;}
-    .contact__wrap{width:min(95vw,1200px); padding:36px 0 48px;}
-    .title{font-size:clamp(36px,4.2vw,56px);}
-    .sub{font-size:clamp(18px,1.6vw,24px);}
-    .area-item{padding:28px 0;}
-  }
 </style>
 
-<!-- enable JS-conditional animation safely -->
 <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
+  <!-- Language toggle -->
+  <button class="lang" id="langToggle" aria-label="Toggle language">PT</button>
+
   <main class="snapper" id="top">
     <!-- PAGE 1 -->
     <section class="hero" aria-label="Intro">
       <div class="hero__bg" aria-hidden="true"></div>
-      <div class="hero__content">
+      <div class="hero__content wrap">
         <h1 class="logo">Lusa Terra</h1>
-        <p class="tagline reveal-up">Passion for Portuguese real estate investment</p>
+        <p class="tagline reveal-up" data-i18n="tagline">Passion for Portuguese real estate investment</p>
       </div>
     </section>
 
     <!-- PAGE 2 -->
     <section class="areas" aria-label="Business areas">
-      <div class="areas__wrap">
-        <div class="eyebrow">BUSINESS AREAS</div>
+      <div class="areas__wrap wrap">
+        <div class="eyebrow" data-i18n="areasHeading">BUSINESS AREAS</div>
         <ol class="areas__list">
-          <li class="area-item reveal-x" style="--d:60ms">
-            <div class="area-row">
+          <li class="area-item">
+            <div class="area-left reveal-x" style="--d:60ms">
               <span class="num">1</span>
-              <h3 class="title">Origination</h3>
+              <h3 class="title" data-i18n="t1">Origination</h3>
             </div>
-            <small class="sub">Deal sourcing via our extensive local network</small>
+            <div class="area-right reveal-x" style="--d:120ms">
+              <small class="sub" data-i18n="s1">Deal sourcing via our extensive local network</small>
+            </div>
           </li>
-          <li class="area-item reveal-x" style="--d:120ms">
-            <div class="area-row">
+          <li class="area-item">
+            <div class="area-left reveal-x" style="--d:180ms">
               <span class="num">2</span>
-              <h3 class="title">Investment</h3>
+              <h3 class="title" data-i18n="t2">Investment</h3>
             </div>
-            <small class="sub">Lead investor and co-investment</small>
+            <div class="area-right reveal-x" style="--d:240ms">
+              <small class="sub" data-i18n="s2">Lead investor and co-investment</small>
+            </div>
           </li>
-          <li class="area-item reveal-x" style="--d:180ms">
-            <div class="area-row">
+          <li class="area-item">
+            <div class="area-left reveal-x" style="--d:300ms">
               <span class="num">3</span>
-              <h3 class="title">Development</h3>
+              <h3 class="title" data-i18n="t3">Development</h3>
             </div>
-            <small class="sub">Property development across project stages</small>
+            <div class="area-right reveal-x" style="--d:360ms">
+              <small class="sub" data-i18n="s3">Property development across project stages</small>
+            </div>
           </li>
-          <li class="area-item reveal-x" style="--d:240ms">
-            <div class="area-row">
+          <li class="area-item">
+            <div class="area-left reveal-x" style="--d:420ms">
               <span class="num">4</span>
-              <h3 class="title">Management</h3>
+              <h3 class="title" data-i18n="t4">Management</h3>
             </div>
-            <small class="sub">Property management and operations</small>
+            <div class="area-right reveal-x" style="--d:480ms">
+              <small class="sub" data-i18n="s4">Property management and operations</small>
+            </div>
           </li>
         </ol>
       </div>
@@ -176,25 +182,25 @@
 
     <!-- PAGE 3 -->
     <section class="contact" aria-label="Contact">
-      <div class="contact__wrap">
+      <div class="contact__wrap wrap">
         <div class="contact-head">
-          <div class="eyebrow">CONTACT US</div>
+          <div class="eyebrow" data-i18n="contactHeading">CONTACT US</div>
           <div class="wx" id="wx"></div>
         </div>
         <form id="contactForm" action="https://formspree.io/f/your-form-id" method="POST">
           <div>
-            <label for="name">Your name</label>
+            <label for="name" data-i18n="labelName">Your name</label>
             <input id="name" name="name" type="text" placeholder="Ana Silva" required />
           </div>
           <div>
-            <label for="email">Email</label>
+            <label for="email" data-i18n="labelEmail">Email</label>
             <input id="email" name="email" type="email" placeholder="ana@example.com" required />
           </div>
           <div>
-            <label for="message">Message</label>
+            <label for="message" data-i18n="labelMsg">Message</label>
             <textarea id="message" name="message" placeholder="Tell us briefly about the asset or opportunity" required></textarea>
           </div>
-          <button type="submit">Send message</button>
+          <button type="submit" data-i18n="sendBtn">Send message</button>
           <div id="status" class="status" role="status" aria-live="polite"></div>
         </form>
       </div>
@@ -202,20 +208,79 @@
   </main>
 
 <script>
-  /* Observe reveal targets within the scroll container */
+  /* Reveal within the scroll container */
   const scroller=document.querySelector('.snapper');
   const targets=document.querySelectorAll('.reveal-x,.reveal-up');
   try{
     const io=new IntersectionObserver((ents)=>{
       ents.forEach(e=>{
-        if(e.isIntersecting){
-          e.target.classList.add('in-view');
-          io.unobserve(e.target);
-        }
+        if(e.isIntersecting){ e.target.classList.add('in-view'); io.unobserve(e.target); }
       });
     },{root:scroller,threshold:0.25,rootMargin:"0px 0px -10% 0px"});
     targets.forEach(t=>io.observe(t));
   }catch{}
+
+  /* i18n */
+  const i18n = {
+    en: {
+      tagline: "Passion for Portuguese real estate investment",
+      areasHeading: "BUSINESS AREAS",
+      t1: "Origination", t2: "Investment", t3: "Development", t4: "Management",
+      s1: "Deal sourcing via our extensive local network",
+      s2: "Lead investor and co-investment",
+      s3: "Property development across project stages",
+      s4: "Property management and operations",
+      contactHeading: "CONTACT US",
+      labelName: "Your name",
+      labelEmail: "Email",
+      labelMsg: "Message",
+      phMsg: "Tell us briefly about the asset or opportunity",
+      sendBtn: "Send message",
+      city: "LISBON"
+    },
+    pt: {
+      tagline: "Paixão pelo investimento imobiliário em Portugal",
+      areasHeading: "ÁREAS DE NEGÓCIO",
+      t1: "Originação", t2: "Investimento", t3: "Desenvolvimento", t4: "Gestão",
+      s1: "Originação de negócios através da nossa vasta rede local",
+      s2: "Investidor âncora e co-investimento",
+      s3: "Promoção imobiliária em todas as fases do projeto",
+      s4: "Gestão e operação de ativos",
+      contactHeading: "CONTACTE-NOS",
+      labelName: "O seu nome",
+      labelEmail: "Email",
+      labelMsg: "Mensagem",
+      phMsg: "Descreva brevemente o ativo ou oportunidade",
+      sendBtn: "Enviar mensagem",
+      city: "LISBOA"
+    }
+  };
+
+  function applyLang(lang){
+    document.documentElement.lang = lang === 'pt' ? 'pt-PT' : 'en';
+    document.querySelectorAll("[data-i18n]").forEach(el=>{
+      const key=el.getAttribute("data-i18n");
+      if(i18n[lang][key]) el.textContent = i18n[lang][key];
+    });
+    /* placeholders */
+    const msg = document.getElementById('message');
+    msg.setAttribute('placeholder', i18n[lang].phMsg);
+
+    /* button text */
+    document.getElementById('langToggle').textContent = lang === 'pt' ? 'ENG' : 'PT';
+
+    /* update Lisbon/Lisboa */
+    const wxEl=document.getElementById('wx');
+    if(wxEl.dataset.temp){ wxEl.textContent = `${wxEl.dataset.temp}°C ${i18n[lang].city}`; }
+    localStorage.setItem('lusa_lang', lang);
+  }
+
+  const saved = localStorage.getItem('lusa_lang') || 'en';
+  applyLang(saved);
+
+  document.getElementById('langToggle').addEventListener('click',()=>{
+    applyLang( (localStorage.getItem('lusa_lang')==='pt') ? 'en' : 'pt' );
+  });
 
   /* Contact form (Formspree) */
   const form=document.getElementById('contactForm'); const status=document.getElementById('status');
@@ -235,7 +300,8 @@
     try{
       const r=await fetch('https://api.open-meteo.com/v1/forecast?latitude=38.72&longitude=-9.14&current_weather=true');
       const d=await r.json(); const t=Math.round(d?.current_weather?.temperature ?? NaN);
-      if(Number.isFinite(t)) el.textContent=`${t}°C LISBON`; else el.remove();
+      if(Number.isFinite(t)){ el.dataset.temp = t; const lang=localStorage.getItem('lusa_lang')||'en'; el.textContent=`${t}°C ${i18n[lang].city}`; }
+      else el.remove();
     }catch{ el.remove(); }
   })();
 </script>
