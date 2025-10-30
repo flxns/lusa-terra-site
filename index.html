@@ -9,6 +9,7 @@
 <meta property="og:description" content="Passion for Portuguese real estate investment." />
 <meta property="og:type" content="website" />
 <meta name="theme-color" content="#0b0b0c" />
+
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet" />
@@ -18,10 +19,15 @@
   html,body{height:100%;margin:0}
   :root{
     --bg:#fff; --ink:#0e0e10; --muted:#e9e9ec;
-    --radius:18px; --num:25px; --gap:16px; --sub-dg:#4b4f55;
+    --radius:18px; --num:28px; --gap:16px; --sub-dg:#4b4f55;
     --container-max:1400px;
-    --pad-x:clamp(16px,4vw,48px);      /* unified left/right gutter */
-    --sub-extra:14px;                  /* extra indent for mobile grey copy */
+    --pad-x:clamp(16px,4vw,48px);          /* unified left/right gutter */
+    --sub-extra:14px;                      /* extra indent for mobile grey copy */
+
+    /* language toggle vertical alignment per section */
+    --lang-top-hero:   calc(max(16px, env(safe-area-inset-top)));
+    --lang-top-areas:  22px;               /* matches Business Areas row top */
+    --lang-top-contact:22px;               /* matches Contact row top */
   }
   body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;background:var(--bg);color:var(--ink)}
   .wrap{width:min(95vw,var(--container-max));margin-inline:auto;padding-inline:var(--pad-x);}
@@ -33,7 +39,7 @@
   /* ===== Hero (Page 1) ===== */
   .hero{color:#fff;overflow:hidden;border-bottom-left-radius:var(--radius);border-bottom-right-radius:var(--radius);z-index:1;background:#000}
   .hero__bg{position:absolute;inset:0;background:#000 center/cover no-repeat;filter:brightness(.8)}
-  /* 🎯 Your image here (uploaded to repo root as hero-ocean.jpg) */
+  /* Your image (place hero-ocean.jpg in repo root or adjust path) */
   .hero__bg{background-image:url("./hero-ocean.jpg");}
   .hero__content{position:relative;z-index:1;}
   .hero__content.wrap{padding-top:max(16px,env(safe-area-inset-top))}
@@ -41,16 +47,19 @@
   .tagline{position:absolute;left:var(--pad-x);right:var(--pad-x);bottom:25%;font-weight:600;font-size:clamp(22px,6vw,32px);text-align:left;opacity:.98}
   @media (max-height:700px){.tagline{bottom:18%}}
 
-  /* ===== Language toggle (text only, aligned with content right edge) ===== */
+  /* ===== Language toggle (text only) ===== */
   #langToggle{
     position:fixed;
-    right:calc((100vw - min(95vw, var(--container-max)))/2 + var(--pad-x)); /* align with content column right */
-    top:calc(max(16px, env(safe-area-inset-top)));
+    right:calc((100vw - min(95vw, var(--container-max)))/2 + var(--pad-x)); /* align with content right edge */
+    top:var(--lang-top-hero);                    /* default on hero */
     z-index:5;background:none;border:none;padding:0;margin:0;cursor:pointer;
     font-weight:600;font-size:12px;letter-spacing:.06em;color:#a0a5ab
   }
   #langToggle:hover{color:#5b5f64}
   #langToggle:focus-visible{outline:2px solid #b8bcc2;outline-offset:2px}
+  /* switch vertical top based on active section */
+  body[data-section="areas"]   #langToggle{ top:var(--lang-top-areas); }
+  body[data-section="contact"] #langToggle{ top:var(--lang-top-contact); }
 
   /* ===== Business Areas (Page 2) ===== */
   .areas{background:#fff;border-radius:0;border-top-left-radius:var(--radius);border-top-right-radius:var(--radius);margin-top:-18px;z-index:2}
@@ -60,20 +69,22 @@
   .area-item{padding:20px 0}
   .area-item + .area-item{border-top:1px solid var(--muted)}
 
-  .area-left{display:flex;align-items:center;gap:var(--gap)} /* center-align numerals with headings */
+  /* Heading row: circle perfectly centered with title (also fixes digit "3") */
+  .area-left{display:flex;align-items:center;gap:var(--gap)}
   .num{
     width:var(--num);height:var(--num);border-radius:999px;background:#0d0d0f;color:#fff;
     display:grid;place-items:center;font-weight:700;font-size:13px;line-height:1;
-    font-variant-numeric:tabular-nums;  /* keeps “3” same width/feel as others */
+    font-variant-numeric:tabular-nums;
   }
   .title{font-family:"Libre Baskerville",serif;font-weight:700;letter-spacing:.01em;font-size:clamp(26px,6.5vw,34px);line-height:1.15;margin:0}
   .sub{display:block;margin-left:calc(var(--num) + var(--gap) + var(--sub-extra));margin-top:6px;color:var(--sub-dg);font-size:clamp(16px,4.2vw,18px)}
 
-  /* Desktop: two columns, widen right column gap a touch */
+  /* Desktop: two columns with generous gap so long PT headings don't crowd copy */
   @media (min-width:1024px){
     .hero__content.wrap,.areas__wrap.wrap,.contact__wrap.wrap{width:min(95vw,var(--container-max))}
     .logo{font-size:clamp(80px,8vw,160px)}
     .tagline{left:var(--pad-x);right:var(--pad-x);bottom:20%;font-size:clamp(28px,3vw,48px)}
+
     .area-item{display:grid;grid-template-columns:minmax(360px,0.6fr) 1fr;column-gap:calc(clamp(48px,6vw,120px) + 16px);align-items:center}
     .sub{margin-left:0;font-size:clamp(16px,1.3vw,20px)}
     .title{font-size:clamp(30px,3.4vw,45px)}
@@ -82,11 +93,13 @@
   /* ===== Contact (Page 3) ===== */
   .contact{background:#fff;border-radius:0}
   .contact__wrap{padding-block:22px 34px}
-  .contact-head{display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .contact-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px}
   .contact-head .eyebrow{margin:0}
   .wx{font-size:12px;letter-spacing:.12em;color:#8a8a8f;white-space:nowrap}
-  /* Mobile: shift temperature left so it never overlaps PT/EN text */
-  @media (max-width:480px){ .wx{margin-right:calc(var(--pad-x) + 72px)} }
+  /* Mobile: ensure weather doesn't collide with PT/EN */
+  @media (max-width:480px){ .wx{ margin-right:calc(var(--pad-x) + 72px); } }
+  /* Desktop: pull weather inward to avoid overlap with fixed PT/EN on the far right */
+  @media (min-width:1024px){ .contact .wx{ margin-right:90px; } }
 
   form{display:grid;gap:14px;margin-top:12px}
   label{font-size:13px;opacity:.85}
@@ -102,7 +115,7 @@
 </style>
 <script>document.documentElement.classList.add('js');</script>
 </head>
-<body>
+<body data-section="hero">
   <!-- PT/EN text toggle -->
   <span id="langToggle" role="button" aria-label="Toggle language" tabindex="0">PT</span>
 
@@ -190,14 +203,45 @@
 
 <script>
   /* Reveal animations inside the snap container */
-  const scroller=document.querySelector('.snapper');
-  const targets=document.querySelectorAll('.reveal-x,.reveal-up');
-  try{
-    const io=new IntersectionObserver((ents)=>{
-      ents.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in-view'); io.unobserve(e.target);} });
-    },{root:scroller,threshold:0.25,rootMargin:"0px 0px -10% 0px"});
-    targets.forEach(t=>io.observe(t));
-  }catch{}
+  (function(){
+    const scroller=document.querySelector('.snapper');
+    const targets=document.querySelectorAll('.reveal-x,.reveal-up');
+    try{
+      const io=new IntersectionObserver((ents)=>{
+        ents.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in-view'); io.unobserve(e.target);} });
+      },{root:scroller,threshold:0.25,rootMargin:"0px 0px -10% 0px"});
+      targets.forEach(t=>io.observe(t));
+    }catch{}
+  })();
+
+  /* Track active section (hero/areas/contact) to vertically align PT/EN with headers */
+  (function(){
+    const body = document.body;
+    const root = document.querySelector('.snapper') || null;
+    const sections = [
+      [document.querySelector('.hero'),   'hero'],
+      [document.querySelector('.areas'),  'areas'],
+      [document.querySelector('.contact'),'contact']
+    ].filter(([el]) => el);
+
+    try{
+      const io = new IntersectionObserver((entries)=>{
+        let best=null;
+        entries.forEach(e=>{ if(!best || e.intersectionRatio>best.intersectionRatio) best=e; });
+        if(best && best.isIntersecting) body.setAttribute('data-section', sections.find(s=>s[0]===best.target)[1]);
+      }, { threshold:[0.1,0.25,0.5,0.75,1], root });
+      sections.forEach(([el])=>io.observe(el));
+    }catch{
+      // Fallback: simple scroll handler
+      const tops = sections.map(([el,key])=>({key,el,top:el.offsetTop}));
+      (document.querySelector('.snapper')||window).addEventListener('scroll',()=>{
+        const y = (document.querySelector('.snapper')||document.documentElement).scrollTop || 0;
+        let current='hero';
+        for(const s of tops){ if(y>=s.top-10) current=s.key; }
+        body.setAttribute('data-section', current);
+      });
+    }
+  })();
 
   /* i18n */
   const i18n = {
