@@ -12,80 +12,78 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet" />
+
 <style>
   *,*::before,*::after{box-sizing:border-box}
   html,body{height:100%;margin:0}
   :root{
     --bg:#fff; --ink:#0e0e10; --ink-soft:#2a2a2b; --muted:#e9e9ec;
-    --radius:18px; --num:25px; --gap:16px; --sub-dg:#4b4f55; /* dark grey subtext */
+    --radius:18px; --num:25px; --gap:16px; --sub-dg:#4b4f55;
   }
   body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;background:var(--bg);color:var(--ink)}
 
   /* ===== Scroll snapping (gentle) ===== */
   .snapper{
-    height:100svh;
-    overflow-y:auto;
-    scroll-snap-type:y proximity;   /* change to 'mandatory' for harder lock */
+    height:100svh; overflow-y:auto;
+    scroll-snap-type:y proximity;  /* change to 'mandatory' if you want hard lock */
     scroll-behavior:smooth;
     -webkit-overflow-scrolling:touch;
     overscroll-behavior-y:contain;
   }
   section{
-    min-height:100svh;
-    position:relative;
-    display:grid;
-    place-items:stretch;
-    scroll-snap-align:start;
-    scroll-snap-stop:always;
+    min-height:100svh; position:relative; display:grid; place-items:stretch;
+    scroll-snap-align:start; scroll-snap-stop:always;
   }
 
   /* ===== Page 1 — Hero ===== */
-  .hero{color:#fff;overflow:hidden;border-bottom-left-radius:var(--radius);border-bottom-right-radius:var(--radius);z-index:1}
-  .hero__bg{position:absolute;inset:0;background:#000 center/cover no-repeat;filter:brightness(.74)}
-  /* Placeholder photo (replace later) */
+  .hero{color:#fff; overflow:hidden; border-bottom-left-radius:var(--radius); border-bottom-right-radius:var(--radius); z-index:1}
+  .hero__bg{position:absolute; inset:0; background:#000 center/cover no-repeat; filter:brightness(.74)}
   .hero__bg{background-image:image-set(
     url('https://images.unsplash.com/photo-1529429612779-c8e40ef2f36c?q=80&w=1200&auto=format&fit=crop') 1x,
     url('https://images.unsplash.com/photo-1529429612779-c8e40ef2f36c?q=80&w=2400&auto=format&fit=crop') 2x
   )}
   .hero__content{
-    position:relative;z-index:1;width:min(92vw,860px);margin:0 auto;
-    display:grid;grid-template-rows:auto 1fr 0;align-content:stretch;
+    position:relative; z-index:1; width:min(92vw,860px); margin:0 auto;
+    display:grid; grid-template-rows:auto 1fr 0; align-content:stretch;
     padding:max(16px,env(safe-area-inset-top)) 22px 22px;
   }
   .logo{
-    font-family:"Libre Baskerville",serif;font-weight:700;letter-spacing:.015em;
-    font-size:clamp(44px,10vw,80px);line-height:1.05;text-align:left;
+    font-family:"Libre Baskerville",serif; font-weight:700; letter-spacing:.015em;
+    font-size:clamp(44px,10vw,80px); line-height:1.05; text-align:left;
   }
   /* Tagline ~25% above bottom */
   .tagline{
-    position:absolute;left:22px;right:22px;bottom:25%;
-    font-weight:600;font-size:clamp(22px,6vw,32px);text-align:left;opacity:.98;
+    position:absolute; left:22px; right:22px; bottom:25%;
+    font-weight:600; font-size:clamp(22px,6vw,32px); text-align:left; opacity:.98;
   }
   @media (max-height:700px){.tagline{bottom:18%}}
 
-  /* ===== Page 2 — Business Areas (straight rounded divider; NO “Focus”) ===== */
-  .areas{background:#fff;border-top-left-radius:var(--radius);border-top-right-radius:var(--radius);margin-top:-18px;z-index:2}
-  .areas__wrap{width:min(92vw,860px);margin:0 auto;padding:22px 0 30px}
-  .eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#666;margin:0 0 12px}
+  /* ===== Page 2 — Business Areas (rounded only at TOP) ===== */
+  .areas{
+    background:#fff; border-radius:0;
+    border-top-left-radius:var(--radius); border-top-right-radius:var(--radius);
+    margin-top:-18px; z-index:2;
+  }
+  .areas__wrap{width:min(92vw,860px); margin:0 auto; padding:22px 0 30px}
+  .eyebrow{font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:#666; margin:0 0 12px}
 
-  .areas__list{list-style:none;margin:0;padding:0}
+  .areas__list{list-style:none; margin:0; padding:0}
   .area-item{padding:20px 0}
   .area-item + .area-item{border-top:1px solid var(--muted)}
 
-  /* number + title aligned on same baseline; subtext indented to title start */
-  .area-row{display:flex;align-items:baseline;gap:var(--gap)}
+  /* Number + title on baseline; subtext indented under title start */
+  .area-row{display:flex; align-items:baseline; gap:var(--gap)}
   .num{
-    width:var(--num);height:var(--num);border-radius:999px;
-    background:#0d0d0f;color:#fff;display:inline-flex;align-items:center;justify-content:center;
-    font-weight:700;font-size:13px;line-height:1;
+    width:var(--num); height:var(--num); border-radius:999px; background:#0d0d0f; color:#fff;
+    display:inline-flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; line-height:1;
   }
   .title{
-    font-family:"Libre Baskerville",serif;font-weight:700;letter-spacing:.01em;
-    font-size:clamp(26px,6.5vw,34px);line-height:1.15;margin:0;
+    font-family:"Libre Baskerville",serif; font-weight:700; letter-spacing:.01em;
+    font-size:clamp(26px,6.5vw,34px); line-height:1.15; margin:0;
   }
   .sub{
-    display:block;margin-left:calc(var(--num) + var(--gap));margin-top:6px;
-    color:var(--sub-dg);font-size:clamp(16px,4.2vw,18px);
+    display:block; margin-left:calc(var(--num) + var(--gap)); margin-top:6px;
+    color:var(--sub-dg); font-size:clamp(16px,4.2vw,18px);
   }
   @media (max-height:700px){
     .area-item{padding:16px 0}
@@ -93,23 +91,29 @@
     .sub{font-size:clamp(15px,4.1vw,17px)}
   }
 
-  /* ===== Page 3 — Contact (flat; header style IDENTICAL to eyebrow) ===== */
-  .contact{background:#fff}
-  .contact__wrap{width:min(92vw,860px);margin:0 auto;padding:22px 0 34px}
-  .contact-head{display:flex;align-items:center;justify-content:space-between;gap:16px}
-  .contact-head .eyebrow{margin:0}    /* same class & style as Business Areas */
-  .wx{font-size:12px;letter-spacing:.12em;color:#8a8a8f;white-space:nowrap}
+  /* ===== Page 3 — Contact (flat; eyebrow identical to page 2) ===== */
+  .contact{background:#fff; border-radius:0}
+  .contact__wrap{width:min(92vw,860px); margin:0 auto; padding:22px 0 34px}
+  .contact-head{display:flex; align-items:center; justify-content:space-between; gap:16px}
+  .contact-head .eyebrow{margin:0}
+  .wx{font-size:12px; letter-spacing:.12em; color:#8a8a8f; white-space:nowrap}
 
-  form{display:grid;gap:14px;margin-top:12px}
-  label{font-size:13px;opacity:.85}
-  input,textarea{width:100%;font:inherit;padding:12px 14px;border:1px solid var(--muted);border-radius:12px;background:#fff}
-  textarea{min-height:130px;resize:vertical}
-  button{appearance:none;border:none;border-radius:999px;padding:12px 18px;font-weight:600;background:#0e0e10;color:#fff;cursor:pointer;width:fit-content}
+  form{display:grid; gap:14px; margin-top:12px}
+  label{font-size:13px; opacity:.85}
+  input,textarea{width:100%; font:inherit; padding:12px 14px; border:1px solid var(--muted); border-radius:12px; background:#fff}
+  textarea{min-height:130px; resize:vertical}
+  button{appearance:none; border:none; border-radius:999px; padding:12px 18px; font-weight:600; background:#0e0e10; color:#fff; cursor:pointer; width:fit-content}
 
-  /* Reveal helpers: visible by default so nothing disappears on iPhone */
-  .reveal-x,.reveal-up{opacity:1;transform:none}
-  .in-view{opacity:1;transform:none;transition:transform .5s ease,opacity .5s ease;transition-delay:var(--d,0ms)}
+  /* ===== Reveal animations ===== */
+  /* Start: only if JS enabled (.js on <html>), we set initial offset; otherwise everything is visible (no risk of blank screens). */
+  .reveal-x, .reveal-up { transition:transform .55s ease, opacity .55s ease; will-change:transform,opacity; }
+  .js .reveal-x { opacity:0; transform:translateX(28px); }
+  .js .reveal-up { opacity:0; transform:translateY(24px); }
+  .in-view { opacity:1 !important; transform:none !important; }
 </style>
+
+<!-- enable JS-conditional animation safely -->
+<script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
   <main class="snapper" id="top">
@@ -163,7 +167,7 @@
     <section class="contact" aria-label="Contact">
       <div class="contact__wrap">
         <div class="contact-head">
-          <div class="eyebrow">CONTACT US</div>   <!-- identical style to Business Areas -->
+          <div class="eyebrow">CONTACT US</div>
           <div class="wx" id="wx"></div>
         </div>
         <form id="contactForm" action="https://formspree.io/f/your-form-id" method="POST">
@@ -187,13 +191,18 @@
   </main>
 
 <script>
-  /* Lightweight "in-view" (kept non-blocking) */
+  /* Observe reveal targets within the scroll container */
   const scroller=document.querySelector('.snapper');
   const targets=document.querySelectorAll('.reveal-x,.reveal-up');
   try{
     const io=new IntersectionObserver((ents)=>{
-      ents.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in-view'); });
-    },{root:scroller,threshold:0.15});
+      ents.forEach(e=>{
+        if(e.isIntersecting){
+          e.target.classList.add('in-view');
+          io.unobserve(e.target);
+        }
+      });
+    },{root:scroller,threshold:0.25,rootMargin:"0px 0px -10% 0px"});
     targets.forEach(t=>io.observe(t));
   }catch{}
 
