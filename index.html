@@ -20,116 +20,90 @@
     --bg:#fff; --ink:#0e0e10; --muted:#e9e9ec;
     --radius:18px; --num:25px; --gap:16px; --sub-dg:#4b4f55;
     --container-max:1400px;
-    --pad-x:clamp(16px,4vw,48px);     /* single left/right gutter */
-    --sub-extra:10px;                 /* extra indent for sub text (mobile) */
+    --pad-x:clamp(16px,4vw,48px);      /* unified left/right gutter */
+    --sub-extra:14px;                  /* extra indent for mobile grey copy */
   }
   body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;background:var(--bg);color:var(--ink)}
   .wrap{width:min(95vw,var(--container-max));margin-inline:auto;padding-inline:var(--pad-x);}
 
-  /* ===== Scroll snapping (gentle) ===== */
-  .snapper{
-    height:100svh; overflow-y:auto;
-    scroll-snap-type:y proximity;
-    scroll-behavior:smooth;
-    -webkit-overflow-scrolling:touch;
-    overscroll-behavior-y:contain;
-  }
-  section{
-    min-height:100svh; position:relative; display:grid; place-items:stretch;
-    scroll-snap-align:start; scroll-snap-stop:always;
-  }
+  /* Scroll snapping */
+  .snapper{height:100svh;overflow-y:auto;scroll-snap-type:y proximity;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behavior-y:contain}
+  section{min-height:100svh;position:relative;display:grid;place-items:stretch;scroll-snap-align:start;scroll-snap-stop:always}
 
-  /* ===== Page 1 — Hero ===== */
-  .hero{color:#fff; overflow:hidden; border-bottom-left-radius:var(--radius); border-bottom-right-radius:var(--radius); z-index:1}
-  .hero__bg{position:absolute; inset:0; background:#000 center/cover no-repeat; filter:brightness(.74)}
-  .hero__bg{background-image:image-set(
-    url('https://images.unsplash.com/photo-1529429612779-c8e40ef2f36c?q=80&w=1200&auto=format&fit=crop') 1x,
-    url('https://images.unsplash.com/photo-1529429612779-c8e40ef2f36c?q=80&w=2400&auto=format&fit=crop') 2x
-  )}
-  .hero__content{position:relative; z-index:1;}
+  /* ===== Hero (Page 1) ===== */
+  .hero{color:#fff;overflow:hidden;border-bottom-left-radius:var(--radius);border-bottom-right-radius:var(--radius);z-index:1;background:#000}
+  .hero__bg{position:absolute;inset:0;background:#000 center/cover no-repeat;filter:brightness(.8)}
+  /* 🎯 Your image here (uploaded to repo root as hero-ocean.jpg) */
+  .hero__bg{background-image:url("./hero-ocean.jpg");}
+  .hero__content{position:relative;z-index:1;}
   .hero__content.wrap{padding-top:max(16px,env(safe-area-inset-top))}
-  .logo{
-    font-family:"Libre Baskerville",serif; font-weight:700; letter-spacing:.015em;
-    font-size:clamp(44px,10vw,80px); line-height:1.05; text-align:left;
-  }
-  .tagline{
-    position:absolute; left:var(--pad-x); right:var(--pad-x); bottom:25%;
-    font-weight:600; font-size:clamp(22px,6vw,32px); text-align:left; opacity:.98;
-  }
+  .logo{font-family:"Libre Baskerville",serif;font-weight:700;letter-spacing:.015em;font-size:clamp(44px,10vw,80px);line-height:1.05;text-align:left}
+  .tagline{position:absolute;left:var(--pad-x);right:var(--pad-x);bottom:25%;font-weight:600;font-size:clamp(22px,6vw,32px);text-align:left;opacity:.98}
   @media (max-height:700px){.tagline{bottom:18%}}
 
-  /* ===== Language toggle (text only) ===== */
+  /* ===== Language toggle (text only, aligned with content right edge) ===== */
   #langToggle{
-    position:fixed; top:12px; right:12px; z-index:5;
-    background:none; border:none; padding:0; margin:0; cursor:pointer;
-    font-weight:600; font-size:12px; letter-spacing:.06em; color:#a0a5ab;
+    position:fixed;
+    right:calc((100vw - min(95vw, var(--container-max)))/2 + var(--pad-x)); /* align with content column right */
+    top:calc(max(16px, env(safe-area-inset-top)));
+    z-index:5;background:none;border:none;padding:0;margin:0;cursor:pointer;
+    font-weight:600;font-size:12px;letter-spacing:.06em;color:#a0a5ab
   }
   #langToggle:hover{color:#5b5f64}
-  #langToggle:focus-visible{outline:2px solid #b8bcc2; outline-offset:2px}
+  #langToggle:focus-visible{outline:2px solid #b8bcc2;outline-offset:2px}
 
-  /* ===== Page 2 — Business Areas ===== */
+  /* ===== Business Areas (Page 2) ===== */
   .areas{background:#fff;border-radius:0;border-top-left-radius:var(--radius);border-top-right-radius:var(--radius);margin-top:-18px;z-index:2}
   .areas__wrap{padding-block:22px 30px}
-  .eyebrow{font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:#666; margin:0 0 12px}
-  .areas__list{list-style:none; margin:0; padding:0}
+  .eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#666;margin:0 0 12px}
+  .areas__list{list-style:none;margin:0;padding:0}
   .area-item{padding:20px 0}
   .area-item + .area-item{border-top:1px solid var(--muted)}
 
-  .area-left{display:flex; align-items:baseline; gap:var(--gap)}
+  .area-left{display:flex;align-items:center;gap:var(--gap)} /* center-align numerals with headings */
   .num{
-    width:var(--num); height:var(--num); border-radius:999px; background:#0d0d0f; color:#fff;
-    display:inline-flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; line-height:1;
+    width:var(--num);height:var(--num);border-radius:999px;background:#0d0d0f;color:#fff;
+    display:grid;place-items:center;font-weight:700;font-size:13px;line-height:1;
+    font-variant-numeric:tabular-nums;  /* keeps “3” same width/feel as others */
   }
-  .title{
-    font-family:"Libre Baskerville",serif; font-weight:700; letter-spacing:.01em;
-    font-size:clamp(26px,6.5vw,34px); line-height:1.15; margin:0;
-  }
-  /* mobile: push the grey copy a little further right so long PT strings don't clash */
-  .sub{
-    display:block; margin-left:calc(var(--num) + var(--gap) + var(--sub-extra)); margin-top:6px;
-    color:var(--sub-dg); font-size:clamp(16px,4.2vw,18px);
-  }
+  .title{font-family:"Libre Baskerville",serif;font-weight:700;letter-spacing:.01em;font-size:clamp(26px,6.5vw,34px);line-height:1.15;margin:0}
+  .sub{display:block;margin-left:calc(var(--num) + var(--gap) + var(--sub-extra));margin-top:6px;color:var(--sub-dg);font-size:clamp(16px,4.2vw,18px)}
 
-  /* Desktop: shared left gutter + two columns; more space to the right copy */
+  /* Desktop: two columns, widen right column gap a touch */
   @media (min-width:1024px){
     .hero__content.wrap,.areas__wrap.wrap,.contact__wrap.wrap{width:min(95vw,var(--container-max))}
     .logo{font-size:clamp(80px,8vw,160px)}
-    .tagline{left:var(--pad-x); right:var(--pad-x); bottom:20%; font-size:clamp(28px,3vw,48px)}
-
-    .area-item{display:grid;
-      grid-template-columns:minmax(360px,0.6fr) 1fr;
-      column-gap:clamp(48px,6vw,120px); /* ⇦ moved grey body further right */
-      align-items:baseline}
-    .sub{margin-left:0; font-size:clamp(16px,1.3vw,20px)}
-    .title{font-size:clamp(30px,3.4vw,45px)} /* ~20% smaller than earlier */
+    .tagline{left:var(--pad-x);right:var(--pad-x);bottom:20%;font-size:clamp(28px,3vw,48px)}
+    .area-item{display:grid;grid-template-columns:minmax(360px,0.6fr) 1fr;column-gap:calc(clamp(48px,6vw,120px) + 16px);align-items:center}
+    .sub{margin-left:0;font-size:clamp(16px,1.3vw,20px)}
+    .title{font-size:clamp(30px,3.4vw,45px)}
   }
 
-  /* ===== Page 3 — Contact ===== */
+  /* ===== Contact (Page 3) ===== */
   .contact{background:#fff;border-radius:0}
   .contact__wrap{padding-block:22px 34px}
-  .contact-head{display:flex; align-items:center; justify-content:space-between; gap:16px}
+  .contact-head{display:flex;align-items:center;justify-content:space-between;gap:16px}
   .contact-head .eyebrow{margin:0}
-  .wx{font-size:12px; letter-spacing:.12em; color:#8a8a8f; white-space:nowrap}
-  /* mobile: shift temperature left so it doesn't overlap PT/EN text in the corner */
-  @media (max-width:480px){ .wx{margin-right:52px} }
+  .wx{font-size:12px;letter-spacing:.12em;color:#8a8a8f;white-space:nowrap}
+  /* Mobile: shift temperature left so it never overlaps PT/EN text */
+  @media (max-width:480px){ .wx{margin-right:calc(var(--pad-x) + 72px)} }
 
-  form{display:grid; gap:14px; margin-top:12px}
-  label{font-size:13px; opacity:.85}
-  input,textarea{width:100%; font:inherit; padding:12px 14px; border:1px solid var(--muted); border-radius:12px; background:#fff}
-  textarea{min-height:130px; resize:vertical}
-  button{appearance:none; border:none; border-radius:999px; padding:12px 18px; font-weight:600; background:#0e0e10; color:#fff; cursor:pointer; width:fit-content}
+  form{display:grid;gap:14px;margin-top:12px}
+  label{font-size:13px;opacity:.85}
+  input,textarea{width:100%;font:inherit;padding:12px 14px;border:1px solid var(--muted);border-radius:12px;background:#fff}
+  textarea{min-height:130px;resize:vertical}
+  button{appearance:none;border:none;border-radius:999px;padding:12px 18px;font-weight:600;background:#0e0e10;color:#fff;cursor:pointer;width:fit-content}
 
-  /* ===== Reveal animations ===== */
-  .reveal-x, .reveal-up { transition:transform .55s ease, opacity .55s ease; will-change:transform,opacity; }
-  .js .reveal-x { opacity:0; transform:translateX(28px); }
-  .js .reveal-up { opacity:0; transform:translateY(24px); }
-  .in-view { opacity:1 !important; transform:none !important; }
+  /* Reveal animations */
+  .reveal-x,.reveal-up{transition:transform .55s ease,opacity .55s ease;will-change:transform,opacity}
+  .js .reveal-x{opacity:0;transform:translateX(28px)}
+  .js .reveal-up{opacity:0;transform:translateY(24px)}
+  .in-view{opacity:1 !important;transform:none !important}
 </style>
-
 <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
-  <!-- Language toggle (text only) -->
+  <!-- PT/EN text toggle -->
   <span id="langToggle" role="button" aria-label="Toggle language" tabindex="0">PT</span>
 
   <main class="snapper" id="top">
@@ -215,14 +189,12 @@
   </main>
 
 <script>
-  /* Reveal within the scroll container */
+  /* Reveal animations inside the snap container */
   const scroller=document.querySelector('.snapper');
   const targets=document.querySelectorAll('.reveal-x,.reveal-up');
   try{
     const io=new IntersectionObserver((ents)=>{
-      ents.forEach(e=>{
-        if(e.isIntersecting){ e.target.classList.add('in-view'); io.unobserve(e.target); }
-      });
+      ents.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in-view'); io.unobserve(e.target);} });
     },{root:scroller,threshold:0.25,rootMargin:"0px 0px -10% 0px"});
     targets.forEach(t=>io.observe(t));
   }catch{}
@@ -270,14 +242,11 @@
       if(i18n[lang][key]) el.textContent = i18n[lang][key];
     });
     document.getElementById('message').setAttribute('placeholder', i18n[lang].phMsg);
-    /* toggle label: EN <-> PT */
     document.getElementById('langToggle').textContent = lang === 'pt' ? 'EN' : 'PT';
-    /* update city label on temp */
     const wxEl=document.getElementById('wx');
     if(wxEl?.dataset?.temp){ wxEl.textContent = `${wxEl.dataset.temp}°C ${i18n[lang].city}`; }
     localStorage.setItem('lusa_lang', lang);
   }
-
   const saved = localStorage.getItem('lusa_lang') || 'en';
   applyLang(saved);
 
@@ -298,7 +267,7 @@
     }catch{ status.textContent='Network error. Please try again or email us directly.'; }
   });
 
-  /* Lisbon temperature badge (no API key) */
+  /* Lisbon temperature (no API key) */
   (async()=>{
     const el=document.getElementById('wx'); if(!el) return;
     try{
